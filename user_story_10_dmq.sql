@@ -1,4 +1,7 @@
-﻿-- RETURN OBSTACLE DATA WITHIN x MILES
+﻿/* This file is for testing the data manipulation queries in MariaDB.
+This file does not need to be included with the website files. */
+ 
+ -- RETURN OBSTACLE DATA WITHIN x MILES
 -- user passes in current lat and longitude values
 -- data returned is the lat, long, and obstacle type of all obstacles within x miles
 -- each degree lat is approx 69 miles, so 5 miles is 0.07246377 dec degrees
