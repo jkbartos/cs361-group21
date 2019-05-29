@@ -38,11 +38,11 @@ function addObstacle() {
     }
 
     if ((!p_lat || 0 === p_lat.length) || (!p_lot || 0 === p_lot.length) || (!p_ob_type || 0 === p_ob_type.length)) {
-        alert("Inputs must not be blank.");
+        alert("Inputs must not be blank. The vehicle will not send Null data.");
     }
     else {
         if (dup_error > 0) {
-            alert("This obstacle has already been reported, this entry will be ignored.");
+            alert("This obstacle has already been reported. The vehicle will not sent repeated records.");
         }
         else {
             window.location = '/obstacles/add/submit?p_deg_lat=' + p_lat + '&p_deg_long=' + p_lon + '&p_ob_type=' + encodeURI(p_ob_type)
