@@ -1,0 +1,21 @@
+﻿-- RETURN OBSTACLE DATA WITHIN x MILES
+-- user passes in current lat and longitude values
+-- data returned is the lat, long, and obstacle type of all obstacles within x miles
+-- each degree lat is approx 69 miles, so 5 miles is 0.07246377 dec degrees
+-- each degree long depends on latitude.  At the equator, 1 deg lat is approx 69.172 miles.
+-- at 40 degrees long, 1 deg lat is approx 53 miles.  At the poles 1 degree lat is approx 0 miles.
+-- use RADIANS() to get deg lat into radians
+-- then the formula for miles in 1 degree long is radians(deg_lat)*69.172
+-- so, 5 miles is approx: deg_lat/(radians(deg_lat)*69.172)*5
+
+-- using deg_lat_diff = (1/69)*p_radius;
+-- using deg_long_diff = deg_lat/(radians(deg_lat)*69.172)*p_radius;
+set @p_radius = 5;
+set @p_deg_lat = 42.725000;
+set @p_deg_long = -84.488000;
+select distinct ob.latitude, ob.longitude, ob.obstacle_type
+from obstacles ob
+where (ob.latitude between @p_deg_lat - ((1/69)* @p_radius)
+	and @p_deg_lat + ((1/69)* @p_radius))
+and (ob.longitude between @p_deg_long - (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius)
+	and @p_deg_long + (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius));
