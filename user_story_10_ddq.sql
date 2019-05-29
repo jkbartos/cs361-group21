@@ -1,4 +1,7 @@
 ﻿
+/* This file is for building the tables and inserting starting data into MariaDB.
+This file does not need to be included with the website files. */
+
 -- BUILD OBSTACLE TYPES TABLE
 CREATE TABLE `obstacle_types`(
 `id`int(11) NOT NULL AUTO_INCREMENT,
