@@ -1,3 +1,6 @@
+/* This file is the js file for each user_story_10 page.
+Store this file in the root directory along with handlebars and package.json */
+
 module.exports = function () {
     var express = require('express');
     var router = express.Router();
