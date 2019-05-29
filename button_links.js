@@ -5,7 +5,7 @@ function gotoAddObstacles() {
 
 // The page where the user can test if the data base returns obstacles when passing in a a search radius and a starting latitude and longitude
 function gotoGetObstacles() {
-    window.location = '/obstacles/add'
+    window.location = '/obstacles/search'
 }
 
 // The page with a table that shows all obstacles when ariving from a different page or from add_obstacle, the table shows the data returned from getObstacles
