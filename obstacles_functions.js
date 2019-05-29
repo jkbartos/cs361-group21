@@ -7,7 +7,13 @@ function searchObstaclesByLocationAndRadius() {
     var p_rad = document.getElementById('radius').value
     var p_lat = document.getElementById('deg_lat').value
     var p_long = document.getElementById('deg_long').value
-    window.location = '/obstacles/search/results/?p_radius=' + encodeURI(p_rad) + '&p_deg_lat=' + encodeURI(p_lat) + '&p_deg_long=' + encodeURI(p_long)
+
+    if ((!p_lat || 0 === p_lat.length) || (!p_lot || 0 === p_lot.length) || (!p_ob_type || 0 === p_ob_type.length)) {
+        alert("Inputs must not be blank.");
+    }
+    else {
+        window.location = '/obstacles/search/results/?p_radius=' + encodeURI(p_rad) + '&p_deg_lat=' + encodeURI(p_lat) + '&p_deg_long=' + encodeURI(p_long)
+    } 
 }
 
 // This function is called when the user clicks submit on the add_obstacles page.
