@@ -51,7 +51,7 @@ module.exports = function () {
     router.get('/search/results/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["user_story_10_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
         var mysql = req.app.get('mysql');
         getObstacles(req, res, mysql, context, complete);
         function complete() {
@@ -65,7 +65,7 @@ module.exports = function () {
     router.get('/add/submit/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["user_story_10_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
         var mysql = req.app.get('mysql');
         storeNewObstacle(req, res, mysql, complete);
         function complete() {
@@ -82,7 +82,7 @@ module.exports = function () {
     router.get('/add/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["user_story_10_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
         var mysql = req.app.get('mysql');
         getObstacleTypes(res, mysql, context, complete);
         function complete() {
@@ -97,7 +97,7 @@ module.exports = function () {
     router.get('/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["user_story_10_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
         var mysql = req.app.get('mysql');
         getAllObstacles(res, mysql, context, complete);
         function complete() {
