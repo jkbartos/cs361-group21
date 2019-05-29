@@ -11,6 +11,11 @@ function gotoObstacles() {
     window.location = '/obstacles'
 }
 
+// The page where the user can test setting a destination
+function gotoDestinations() {
+    window.location = '/destinations'
+}
+
 // The home page of the website
 function gotoHome() {
     window.location = '/'
