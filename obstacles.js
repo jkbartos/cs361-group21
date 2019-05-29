@@ -22,7 +22,7 @@ module.exports = function () {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.obstacles = results[1];
+            context.obstacles = results;
             complete();
         });
     }
@@ -33,7 +33,7 @@ module.exports = function () {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.obstacles = results[1];
+            context.obstacles = results;
             complete();
         });
     }
@@ -62,6 +62,14 @@ module.exports = function () {
         }
     });
 
+    router.get('/search/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
+        var mysql = req.app.get('mysql');
+        res.render('get_obstacles');
+    });
+
     router.get('/add/submit/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -85,9 +93,10 @@ module.exports = function () {
         context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
         var mysql = req.app.get('mysql');
         getObstacleTypes(res, mysql, context, complete);
+        getAllObstacles(res, mysql, context, complete);
         function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
+            if (callbackCount >= 2) {
                 res.render('add_obstacle', context);
             }
         }
