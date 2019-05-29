@@ -1,3 +1,7 @@
+/* This file is for navigating pages without the use of hyper-links.
+Store this file in the public directory and include it when making js url definitions. */
+
+
 // The page where the user can add obstacles to the obstacle table when passing in obstacle type from a drop-down and entering latitude and longitude
 function gotoAddObstacles() {
     window.location = '/obstacles/add'
