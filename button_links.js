@@ -1,4 +1,5 @@
-
+/* This file is to be used to navigate pages if a hyperlink is not wanted
+Store this file in the Public directory and reference it in the context.jsscripts section of each page's js */
 
 // The page where the user can add obstacles to the obstacle table when passing in obstacle type from a drop-down and entering latitude and longitude
 function gotoUserStory10Add() {
