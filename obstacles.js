@@ -51,7 +51,7 @@ module.exports = function () {
     router.get('/search/results/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
         getObstacles(req, res, mysql, context, complete);
         function complete() {
@@ -65,7 +65,7 @@ module.exports = function () {
     router.get('/search/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
         res.render('get_obstacles');
     });
@@ -73,7 +73,7 @@ module.exports = function () {
     router.get('/add/submit/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
         storeNewObstacle(req, res, mysql, complete);
         function complete() {
@@ -90,7 +90,7 @@ module.exports = function () {
     router.get('/add/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
         getObstacleTypes(res, mysql, context, complete);
         getAllObstacles(res, mysql, context, complete);
@@ -106,7 +106,7 @@ module.exports = function () {
     router.get('/', function (req, res) {
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["obstacles_functions.js", "buttonlinks.js"];
+        context.jsscripts = ["obstacles_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
         getAllObstacles(res, mysql, context, complete);
         function complete() {
@@ -120,3 +120,4 @@ module.exports = function () {
 
     return router;
 }();
+
