@@ -17,7 +17,10 @@ function searchObstaclesByLocationAndRadius() {
 }
 
 // This function is called when the user clicks submit on the add_obstacles page.
-// The input fields must have the IDs of deg_lat, deg_lon, ob_type 
+// The input fields must have the IDs of deg_lat, deg_lon, ob_type.
+// The exiting values of the obstacle table are on the webpage in a hidden table with field names of others_lat,
+// others_lon, and others_ob_type.  This simulates the vehicle already knowing what obstacles have been reported
+// so that it doesn't try to report something again.
 function addObstacle() {
     var p_lat = document.getElementById('deg_lat').value
     var p_lon = document.getElementById('deg_lon').value
@@ -33,7 +36,6 @@ function addObstacle() {
             dup_error++;
         }
     }
-
 
     if ((!p_lat || 0 === p_lat.length) || (!p_lot || 0 === p_lot.length) || (!p_ob_type || 0 === p_ob_type.length)) {
         alert("Inputs must not be blank.");
