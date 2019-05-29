@@ -25,3 +25,10 @@ and (ob.longitude between @p_deg_long - (@p_deg_lat/(radians(@p_deg_lat)*69.172)
 select distinct ot.obstacle_type
 from obstacle_types ot
 order by ot.obstacle_type;
+			   
+-- ADD NEW OBSTACLE TO OBSTACLE TABLE
+set @p_ob_type = "Pothole";
+set @p_deg_lat = 42.00000000;
+set @p_deg_long = -84.00000000;
+INSERT INTO obstacles(latitude,longitude,obstacle_type)
+values (@p_deg_lat, @p_deg_long, @p_ob_type);
