@@ -1,3 +1,6 @@
+/* This file is for connecting to the database.
+Store this file in the root directory. */
+
 var mysql = require('mysql');
 var pool = mysql.createPool({
     multipleStatements: true,
