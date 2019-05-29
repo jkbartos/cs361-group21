@@ -2,11 +2,11 @@
 Store this file in the Public directory and reference it in the context.jsscripts section of each obstacles js call definition */
 
 // This function is called when the user clicks submit on the get_obstacles page.
-//The input fields must have the IDs of 'radius', 'deg_lat' and 'deg_long'
+//The input fields must have the IDs of 'radius', 'deg_lat' and 'deg_lon'
 function searchObstaclesByLocationAndRadius() {
     var p_rad = document.getElementById('radius').value
     var p_lat = document.getElementById('deg_lat').value
-    var p_long = document.getElementById('deg_long').value
+    var p_long = document.getElementById('deg_lon').value
 
     if ((!p_lat || 0 === p_lat.length) || (!p_lot || 0 === p_lot.length) || (!p_ob_type || 0 === p_ob_type.length)) {
         alert("Inputs must not be blank.");
