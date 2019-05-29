@@ -88,7 +88,7 @@ module.exports = function () {
         function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
-                res.render('obstacletypes', context);
+                res.render('add_obstacles', context);
             }
         }
     });
