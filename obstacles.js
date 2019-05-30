@@ -17,7 +17,7 @@ module.exports = function () {
     }
 
     function getObstacles(req, res, mysql, context, complete) {
-        mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; select distinct ob.latitude, ob.longitude, ob.obstacle_type from obstacles ob where(ob.latitude between @p_deg_lat - ((1 / 69) * @p_radius) and @p_deg_lat + ((1 / 69) * @p_radius)) and(ob.longitude between @p_deg_long - (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius) and @p_deg_long + (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius));", function (error, results, fields) {
+        mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; select distinct ob.latitude, ob.longitude, ob.obstacle_type from obstacles ob where(ob.latitude between @p_deg_lat - ((1 / 69) * @p_radius) and @p_deg_lat + ((1 / 69) * @p_radius)) and (ob.longitude between @p_deg_lon - (@p_radius/(radians(@p_deg_lat)*69.172)) and @p_deg_lon + (@p_radius/(radians(@p_deg_lat)*69.172)));", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
