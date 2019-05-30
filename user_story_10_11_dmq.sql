@@ -12,16 +12,16 @@ This file does not need to be included with the website files. */
 -- so, 5 miles is approx: deg_lat/(radians(deg_lat)*69.172)*5
 
 -- using deg_lat_diff = (1/69)*p_radius;
--- using deg_long_diff = deg_lat/(radians(deg_lat)*69.172)*p_radius;
+-- using deg_long_diff = p_radius/(radians(deg_lat)*69.172);
 set @p_radius = 5;
 set @p_deg_lat = 42.725000;
 set @p_deg_long = -84.488000;
 select distinct ob.latitude, ob.longitude, ob.obstacle_type
 from obstacles ob
 where (ob.latitude between @p_deg_lat - ((1/69)* @p_radius)
-	and @p_deg_lat + ((1/69)* @p_radius))
-and (ob.longitude between @p_deg_long - (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius)
-	and @p_deg_long + (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius));
+	and @p_deg_lat + ((1/69)* @p_radius))	
+and (ob.longitude between @p_deg_lon - (@p_radius/(radians(@p_deg_lat)*69.172))
+	and @p_deg_lon + (@p_radius/(radians(@p_deg_lat)*69.172))	
 
 			   
 -- RETURN OBSTACLE TYPES FOR DROP DOWN MENU
