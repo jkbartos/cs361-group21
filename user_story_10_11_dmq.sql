@@ -18,8 +18,8 @@ set @p_deg_lat = 42.725000;
 set @p_deg_long = -84.488000;
 select distinct ob.latitude, ob.longitude, ob.obstacle_type
 from obstacles ob
-where (ob.latitude between @p_deg_lat - ((1/69)* @p_radius)
-	and @p_deg_lat + ((1/69)* @p_radius))	
+where (ob.latitude between @p_deg_lat - (@p_radius/69)
+	and @p_deg_lat + (@p_radius/69)	
 and (ob.longitude between @p_deg_long - (@p_radius/(radians(@p_deg_lat)*69.172))
 	and @p_deg_long + (@p_radius/(radians(@p_deg_lat)*69.172))	
 
