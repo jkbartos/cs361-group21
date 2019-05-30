@@ -20,8 +20,8 @@ select distinct ob.latitude, ob.longitude, ob.obstacle_type
 from obstacles ob
 where (ob.latitude between @p_deg_lat - ((1/69)* @p_radius)
 	and @p_deg_lat + ((1/69)* @p_radius))	
-and (ob.longitude between @p_deg_lon - (@p_radius/(radians(@p_deg_lat)*69.172))
-	and @p_deg_lon + (@p_radius/(radians(@p_deg_lat)*69.172))	
+and (ob.longitude between @p_deg_long - (@p_radius/(radians(@p_deg_lat)*69.172))
+	and @p_deg_long + (@p_radius/(radians(@p_deg_lat)*69.172))	
 
 			   
 -- RETURN OBSTACLE TYPES FOR DROP DOWN MENU
