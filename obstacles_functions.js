@@ -6,14 +6,18 @@ Store this file in the Public directory and reference it in the context.jsscript
 function searchObstaclesByLocationAndRadius() {
     var p_rad = document.getElementById('radius').value
     var p_lat = document.getElementById('deg_lat').value
-    var p_long = document.getElementById('deg_lon').value
-
-    if ((!p_lat || 0 === p_lat.length) || (!p_lot || 0 === p_lot.length) || (!p_ob_type || 0 === p_ob_type.length)) {
+    var p_lon = document.getElementById('deg_lon').value
+    if (!p_lat || !p_lon || !p_rad) {
         alert("Inputs must not be blank.");
     }
     else {
-        window.location = '/obstacles/search/results/?p_radius=' + encodeURI(p_rad) + '&p_deg_lat=' + encodeURI(p_lat) + '&p_deg_long=' + encodeURI(p_long)
-    } 
+        if (p_rad < 0) {
+            alert("Radius must be positive.");
+        }
+        else {
+            window.location = '/obstacles/search/results/?par_radius=' + encodeURI(p_rad) + '&par_deg_lat=' + encodeURI(p_lat) + '&par_deg_long=' + encodeURI(p_lon)
+        }
+    }
 }
 
 // This function is called when the user clicks submit on the add_obstacles page.
@@ -28,16 +32,18 @@ function addObstacle() {
 
     var others_deg_lat = document.getElementsByName('others_lat');
     var others_deg_lon = document.getElementsByName('others_lon');
-    var others_ob_type = documet.getElementsByName('others_ob_type');
+    var others_ob = document.getElementsByName('others_ob_type');
     var dup_error = 0;
 
-    for (var j = 0, n = others_lat.length; j < n; j++) {
-        if (p_lat === others_lat[j].value && p_lon === others_lon[j].value && p_ob_type === others_ob_type[j].value) {
+    alert("others_lat.length is: " + others_deg_lat.length);
+
+    for (var j = 0, n = others_deg_lat.length; j < n; j++) {
+        if (p_lat === others_deg_lat[j].value && p_lon === others_deg_lon[j].value && p_ob_type === others_ob[j].value) {
             dup_error++;
         }
     }
 
-    if ((!p_lat || 0 === p_lat.length) || (!p_lot || 0 === p_lot.length) || (!p_ob_type || 0 === p_ob_type.length)) {
+    if (!p_lat || !p_lon || !p_ob_type) {
         alert("Inputs must not be blank. The vehicle will not send Null data.");
     }
     else {
@@ -45,7 +51,7 @@ function addObstacle() {
             alert("This obstacle has already been reported. The vehicle will not sent repeated records.");
         }
         else {
-            window.location = '/obstacles/add/submit?p_deg_lat=' + p_lat + '&p_deg_long=' + p_lon + '&p_ob_type=' + encodeURI(p_ob_type)
+            window.location = '/obstacles/add/submit?par_deg_lat=' + encodeURI(p_lat) + '&par_deg_long=' + encodeURI(p_lon) + '&par_ob_type=' + encodeURI(p_ob_type)
         }
-    }    
+    }
 }
