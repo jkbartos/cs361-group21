@@ -17,12 +17,12 @@ module.exports = function () {
     }
 
     function getObstacles(req, res, mysql, context, complete) {
-        mysql.pool.query("set @p_radius = " + decodeURI(req.query.p_radius) + "; set @p_deg_lat = " + decodeURI(req.query.p_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.p_deg_long) + "; select distinct ob.latitude, ob.longitude, ob.obstacle_type from obstacles ob where(ob.latitude between @p_deg_lat - ((1 / 69) * @p_radius) and @p_deg_lat + ((1 / 69) * @p_radius)) and(ob.longitude between @p_deg_long - (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius) and @p_deg_long + (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius));", function (error, results, fields) {
+        mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; select distinct ob.latitude, ob.longitude, ob.obstacle_type from obstacles ob where(ob.latitude between @p_deg_lat - ((1 / 69) * @p_radius) and @p_deg_lat + ((1 / 69) * @p_radius)) and(ob.longitude between @p_deg_long - (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius) and @p_deg_long + (@p_deg_lat/(radians(@p_deg_lat)*69.172)*@p_radius));", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.obstacles = results;
+            context.obstacles = results[3];
             complete();
         });
     }
@@ -39,7 +39,7 @@ module.exports = function () {
     }
 
     function storeNewObstacle(req, res, mysql, complete) {
-        mysql.pool.query("set @p_deg_lat = " + decodeURI(req.query.p_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.p_deg_long) + "; set @p_ob_type = " + mysql.pool.escape(decodeURI(req.query.p_ob_type)) + "; INSERT INTO obstacles(latitude,longitude,obstacle_type) values(@p_deg_lat, @p_deg_long, @p_ob_type);", function (error) {
+        mysql.pool.query("set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; set @p_ob_type = " + mysql.pool.escape(decodeURI(req.query.par_ob_type)) + "; INSERT INTO obstacles(latitude,longitude,obstacle_type) values(@p_deg_lat, @p_deg_long, @p_ob_type);", function (error) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -67,7 +67,7 @@ module.exports = function () {
         var context = {};
         context.jsscripts = ["obstacles_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        res.render('get_obstacles');
+        res.render('get_obstacles', context);
     });
 
     router.get('/add/submit/', function (req, res) {
@@ -120,4 +120,5 @@ module.exports = function () {
 
     return router;
 }();
+
 
