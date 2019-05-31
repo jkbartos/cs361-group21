@@ -19,3 +19,21 @@ Important.
 When in the root directory for the first time run these two statements:
 npm install
 npm install forever
+
+
+publish the site temporarily using the following:
+node project.js 1234
+
+publish the site forever using the following:
+./node_modules/forever/bin/forever start project.js 12345
+
+To stop something from running forever use the following:
+cd node_modules/forever/bin
+forever list
+forever stop 0
+(the 0 is whatever id the forever is running on. It is the number in brackets in the return of forever list)
+forever list  (do this again to make sure that it is no longer running)
+cd ..
+cd ..
+cd ..
+(you should be back to the root directory now)
