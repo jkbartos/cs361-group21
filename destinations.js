@@ -30,7 +30,43 @@ module.exports = function () {
         });
     }    
 
+    // Need to update this function with destination select query once the destination and vehicle ID tables are built
+    // Query should take in the vehicle ID as a parameter and return all of the destination information for that vehicle
+    function getSpecificDestination(req, res, mysql, context, complete) {
+        mysql.pool.query("SELECT DISTINCT ot.obstacle_type FROM obstacle_types ot order by ot.obstacle_type;", function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.dests = results;
+            complete();
+        });
+    }    
 
+    
+    // This gets called by the function that is called after the user clicks submit on the set destination form
+    // It should store the destination, pull the destination information for that record and load the destionation handlebar
+    router.get('/set/submit/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["destination_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+        updateDestination(req, res, mysql, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount == 1) {
+                getSpecificDestination(req, res, mysql, context, complete);
+            }
+            else if (callbackCount >= 2) {
+                res.render('destinations', context);
+            }
+        }
+    });
+    
+    
+    // This gets called by the function that is called after the user clicks the button on the destinations page
+    // that will navigate to the set_destination page.  It needs to return all of the vehicle IDs for the dropdown menu
+    // in the set destination form.
     router.get('/set/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -45,7 +81,8 @@ module.exports = function () {
         }
     });
 
-
+    // This gets called when the user navigates to the destination page from anywhere other than the submit
+    // button on the set destination form.  It renders the destinations page, but does not populate any data.
     router.get('/', function (req, res) {
         var callbackCount = 0;
         var context = {};
