@@ -17,6 +17,11 @@ function gotoObstacles() {
     window.location = '/obstacles'
 }
 
+// The page where the user can enter in the destination in a form
+function gotoSetDestination(){
+		window.location = '/destinations/set`
+}
+
 // The page where the user can test setting a destination
 function gotoDestinations() {
     window.location = '/destinations'
