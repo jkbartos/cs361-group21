@@ -26,3 +26,5 @@ function gotoDestinations() {
 function gotoHome() {
     window.location = '/'
 }
+
+
