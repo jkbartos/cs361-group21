@@ -11,3 +11,11 @@ get_obstacles.handlebars, add_obstacle.handlebars, obstacles.handlebars, destina
 
 ./views/layouts
 main.handlebars 
+
+
+
+
+Important.
+When in the root directory for the first time run these two statements:
+npm install
+npm install forever
