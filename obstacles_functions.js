@@ -3,6 +3,7 @@ Store this file in the Public directory and reference it in the context.jsscript
 
 // This function is called when the user clicks submit on the get_obstacles page.
 //The input fields must have the IDs of 'radius', 'deg_lat' and 'deg_lon'
+
 function searchObstaclesByLocationAndRadius() {
     var p_rad = document.getElementById('radius').value
     var p_lat = document.getElementById('deg_lat').value
@@ -19,6 +20,7 @@ function searchObstaclesByLocationAndRadius() {
         }
     }
 }
+
 
 // This function is called when the user clicks submit on the add_obstacles page.
 // The input fields must have the IDs of deg_lat, deg_lon, ob_type.
