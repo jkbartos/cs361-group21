@@ -43,21 +43,63 @@ module.exports = function () {
         });
     }    
 
+    // This function will call the api XMLHttpRequest
+    function getWeather(req, res, context, complete) {
+        var city_in = decodeURI(req.query.city_in);
+        var appid = decodeURI(req.query.appid);
+        var url = "http://api.openweathermap.org/data/2.5/weather?q=" + city_in + "&appid=" + appid;
+        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+        var req_2 = new XMLHttpRequest();
+        req_2.open("GET", url, true);
+        req_2.send(null);
+        req_2.addEventListener('load', function () {
+            var response = JSON.parse(req_2.responseText);
+            context.results = response;
+            console.log(context.results);
+            complete();
+        });
+        
+    }    
+
+    // This function will call the api XMLHttpRequest
+    function getDirections(req, res, context, complete) {
+        var api_key = decodeURI(req.query.app_key);
+        var veh_id = decodeURI(req.query.veh_id);
+
+        var origin_lat = decodeURI(req.query.origin_lat);
+        var origin_lon = decodeURI(req.query.origin_lon);
+
+        var dest_addr = decodeURI(req.query.dest_addr);
+        var dest_street = decodeURI(req.query.dest_street);
+        var dest_city = decodeURI(req.query.dest_city);
+        var dest_state = decodeURI(req.query.dest_state);
+
+        var url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + origin_lat + "," + origin_lon + "&destination=" + dest_addr + "+" + dest_street + "+" + dest_city + "+" + dest_state + "&key=" + api_key;
+        console.log(url);
+        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+        var req_2 = new XMLHttpRequest();
+        req_2.open("GET", url, true);
+        req_2.send(null);
+        req_2.addEventListener('load', function () {
+            var response = JSON.parse(req_2.responseText);
+            context.results = response;
+            console.log(context.results);
+            complete();
+        });
+
+    }   
     
     // This gets called by the function that is called after the user clicks submit on the set destination form
     // It should store the destination, pull the destination information for that record and load the destionation handlebar
-    router.get('/set/submit/', function (req, res) {
+    router.get('/set/results/', function (req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["destination_functions.js", "button_links.js"];
-        var mysql = req.app.get('mysql');
-        updateDestination(req, res, mysql, complete);
+        getDirections(req, res, context, complete);
+        console.log(context.results);
         function complete() {
             callbackCount++;
-            if (callbackCount == 1) {
-                getSpecificDestination(req, res, mysql, context, complete);
-            }
-            else if (callbackCount >= 2) {
+            if (callbackCount >= 1) {
                 res.render('destinations', context);
             }
         }
