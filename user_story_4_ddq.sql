@@ -1,5 +1,5 @@
 -- BUILD DESTINATION TABLE
-CREATE TABLE `obstacle_types`(
+CREATE TABLE `destinations`(
 `vehicle_id`int(11) NOT NULL,
 `step_id`int(11) NOT NULL,
 `street_name`varchar(255),
