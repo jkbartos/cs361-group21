@@ -3,6 +3,10 @@ CREATE TABLE `destinations`(
 `vehicle_id`int(11) NOT NULL,
 `step_id`int(11) NOT NULL,
 `instruction`varchar(255),
+`start_lat`double(11,9),
+`start_lon`double(11,9),
+`end_lat`double(11,9),
+`end_lon`double(11,9),
 `duration_min`int(11),
 `distance_mi`double(11,1),
 PRIMARY KEY (`vehicle_id`,`step_id`)
