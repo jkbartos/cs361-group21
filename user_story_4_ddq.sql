@@ -10,20 +10,26 @@ PRIMARY KEY (`vehicle_id`,`step_id`)
 
 
 -- BUILD stip_tags FUNCTION
-delimiter ||
-DROP FUNCTION IF EXISTS strip_tags||
-CREATE FUNCTION strip_tags( x longtext) RETURNS longtext
-LANGUAGE SQL NOT DETERMINISTIC READS SQL DATA
+DROP FUNCTION IF EXISTS strip_tags;
+DELIMITER |
+CREATE FUNCTION strip_tags( Dirty varchar(4000) )
+RETURNS varchar(4000)
+DETERMINISTIC 
 BEGIN
-DECLARE sstart INT UNSIGNED;
-DECLARE ends INT UNSIGNED;
-SET sstart = LOCATE('/', x, 1);
-REPEAT
-SET ends = LOCATE('\', x, sstart);
-SET x = CONCAT(SUBSTRING( x, 1 ,sstart -1) ,SUBSTRING(x, ends +1 )) ;
-SET sstart = LOCATE('/', x, 1);
-UNTIL sstart < 1 END REPEAT;
-return x;
+  DECLARE iStart, iEnd, iLength int;
+    WHILE Locate( '<', Dirty ) > 0 And Locate( '>', Dirty, Locate( '<', Dirty )) > 0 DO
+      BEGIN
+        SET iStart = Locate( '<', Dirty ), iEnd = Locate( '>', Dirty, Locate('<', Dirty ));
+        SET iLength = ( iEnd - iStart) + 1;
+        IF iLength > 0 THEN
+          BEGIN
+            SET Dirty = Insert( Dirty, iStart, iLength, '');
+          END;
+        END IF;
+      END;
+    END WHILE;
+    RETURN Dirty;
 END;
-||
-delimiter ;
+|
+DELIMITER ;
+SELECT strip_tags('this <html>is <b>a test</b>, nothing more</html>');
