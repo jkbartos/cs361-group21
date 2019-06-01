@@ -6,8 +6,8 @@ CREATE TABLE `destinations`(
 `start_lon`double(12,9),
 `end_lat`double(12,9),
 `end_lon`double(12,9),
-`duration_min`int(11),
-`distance_mi`double(11,1),
+`duration`varchar(255),
+`distance`varchar(255),
 PRIMARY KEY (`vehicle_id`,`step_id`)
 ) ENGINE =INNODB;
 
