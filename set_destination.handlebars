@@ -193,30 +193,28 @@ TRY TO POSITION IT IN THE BOTTOM RIGHT OF THE FORM IN A SINGLE LINE */
         <fieldset>
             <legend>Enter Obstacle Location in Decimal Degrees and Select Type</legend>
             <p>
-            	  <label class="veh_id_dropDown">Vehicle ID:</label>
-                <select name="veh_id" id="veh_id">
-                    {{#each vehicleIDs}}
-                    <option value="{{vehicleID}}">{{vehicleID}}</option>
-                    {{/each}}
-                </select>
-                
-                <label class="enter_lat">Latitude:</label>
-                <input type="number" name="lat" id="deg_lat" /><br />
-                <label class="enter_lat">Longitude:</label>
-                <input type="number" name="lat" id="deg_lon" /><br />
+                <label class="veh_id">Vehicle ID:</label>
+                <input type="number" name="veh_id" id="veh_id" /><br />
+
+                <label class="origin_lat">Origin Latitude:</label>
+                <input type="number" name="origin_lat" id="origin_lat" /><br />
+                <label class="origin_lon">Origin Longitude:</label>
+                <input type="number" name="origin_lon" id="origin_lon" /><br />
+
+                <label class="dest_addr">Destination Address:</label>
+                <input type="number" name="dest_addr" id="dest_addr" /><br />
+                <label class="dest_street">Destination Street:</label>
+                <input type="text" name="dest_street" id="dest_street" /><br />
+                <label class="dest_city">Destination City:</label>
+                <input type="text" name="dest_city" id="dest_city" /><br />
+                <label class="dest_state">Destination State Abbrv:</label>
+                <input type="text" name="dest_state" id="dest_state" /><br />
             </p>
         </fieldset>
         <br />
     </form>
     <button id="form_button" onclick="setDestination()">Set Destination</button>
 
-    <div id="others" class="others">
-        {{#each obstacles}}
-        <input type="text" class="others" name="others_lat" value="{{latitude}}" />{{latitude}}
-        <input type="text" class="others" name="others_lon" value="{{longitude}}" />{{longitude}}
-        <input type="text" class="others" name="others_ob_type" value="{{obstacle_type}}" />{{obstacle_type}}
-        {{/each}}
-    </div>
 
     <!--  Footer  -->
     <footer class="title_block">
