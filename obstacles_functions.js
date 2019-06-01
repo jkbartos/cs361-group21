@@ -37,8 +37,6 @@ function addObstacle() {
     var others_ob = document.getElementsByName('others_ob_type');
     var dup_error = 0;
 
-    alert("others_lat.length is: " + others_deg_lat.length);
-
     for (var j = 0, n = others_deg_lat.length; j < n; j++) {
         if (p_lat === others_deg_lat[j].value && p_lon === others_deg_lon[j].value && p_ob_type === others_ob[j].value) {
             dup_error++;
