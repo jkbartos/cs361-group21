@@ -1,3 +1,10 @@
+CREATE TABLE `users`(
+`user_id`int(11) NOT NULL,
+`first_name`varchar(255),
+`last_name`varchar(225),
+PRIMARY KEY (`user_id`)
+) ENGINE =INNODB;
+
 CREATE TABLE `destinations`(
 `vehicle_id`int(11) NOT NULL,
 `step_id`int(11) NOT NULL,
