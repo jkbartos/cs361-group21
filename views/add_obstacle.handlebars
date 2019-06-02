@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<header class="headerMenu">
+    <h1 class="header_title">System for Coordination of Autonomous Vehicles</h1>
+    <nav class="menuButtons">
+        <ul class="nav_bar">
+            <li class="button_list" id="home_button"><a onclick="gotoHome()">Home</a></li>
+            <li class="button_list" id="add_destination_button"><a onclick="gotoDestinations()">User Story 4: Destinations</a></li>
+            <li class="button_list" id="obstacles_button"><a onclick="gotoObstacles()">User Stories 10, 11: Obstacles</a></li>
+        </ul>
+    </nav>
+</header>
+<body>
+    <ul class="nav_pillar">
+        <li class="pillar_button_list" id="current_location">Add Obstacle</li>
+        <li class="pillar_button_list" id="back_button"><a onclick="gotoObstacles()">Back</a></li>
+    </ul>
+    <style>
+        header {
+            background-color: #000000; /* OSU Paddletail Black */
+            color: #DC4405; /* OSU Beaver Orange */
+            border-bottom-style: solid;
+            border-bottom-width: thick;
+            border-color: #DC4405; /* OSU Beaver Orange */
+            width: calc(100% - 20px);
+            min-width: 1400px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            padding-left: 20px;
+        }
+
+        body {
+            background-color: dimgray;
+            min-width: 1400px;
+            _width: expression( document.body.clientWidth > 1000 ? "1400px" : "auto" );
+        }
+
+        footer {
+            background-color: #000000; /* OSU Paddletail Black */
+            color: #DC4405; /* OSU Beaver Orange */
+            border-top-style: solid;
+            border-top-width: thick;
+            border-color: #DC4405; /* OSU Beaver Orange */
+            width: calc(100% - 20px);
+            min-width: 1400px;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            padding-left: 20px;
+            padding-bottom: 20px;
+        }
+
+        .title_block_name {
+            padding-bottom: 0px;
+            color: #FFFFFF; /* OSU Bucktooth White */
+        }
+
+        .nav_bar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        .button_list {
+            float: left;
+        }
+
+            .button_list a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+                .button_list a:hover {
+                    background-color: #333;
+                    cursor: pointer;
+                }
+
+        .nav_pillar {
+            left: 0px;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 150px;
+            background-color: gray;
+            top: 129px;
+            height: calc(100% - 200px);
+            position: absolute; /* Make it stick, even on scroll */
+            overflow: auto; /* Enable scrolling if the sidenav has too much content */
+        }
+
+        .pillar_button_list a {
+            display: block;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+            /* Change the link color on hover */
+            .pillar_button_list a:hover {
+                background-color: #555;
+                color: white;
+                cursor: pointer;
+            }
+
+        #current_location {
+            display: block;
+            background-color: #DC4405;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: solid;
+            border-width: thin;
+            border-color: #000000;
+        }
+
+
+        #add-obstacle {
+            position: absolute;
+            top: 150px;
+        }
+
+
+        input[type=text], select {
+            width: 100%;
+            padding: 5px 5px;
+            margin: 4px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        input[type=number], select {
+            width: 100%;
+            padding: 5px 5px;
+            margin: 4px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        #form_button {
+            position: absolute;
+            top: 386px;
+            width: 100px;
+            min-width: 100px;
+            background-color: #DC4405;
+            color: white;
+            padding: 5px 5px;
+            margin: 4px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            left: 593px;
+        }
+
+            #form_button:hover {
+                background-color: #af3401; /*dark orange*/
+            }
+
+        form {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 10px;
+            left: 175px;
+            width: 500px;
+            min-width: 500px;
+        }
+
+
+        #others {
+            position: fixed;
+            left: 175px;
+            top: 600px;
+        }
+
+        .others {
+            display: none;
+        }
+    </style>
+
+    <form id="add-obstacle" action="" method="">
+        <fieldset>
+            <legend>Enter Obstacle Location in Decimal Degrees and Select Type</legend>
+            <p>
+                <label class="enter_lat">Latitude:</label>
+                <input type="number" name="lat" id="deg_lat" /><br />
+                <label class="enter_lat">Longitude:</label>
+                <input type="number" name="lat" id="deg_lon" /><br />
+
+                <label class="ob_type_dropDown">Obstacle Type:</label>
+                <select name="veh_cat" id="ob_type">
+                    {{#each obstacletypes}}
+                    <option value="{{obstacle_type}}">{{obstacle_type}}</option>
+                    {{/each}}
+                </select>
+            </p>
+        </fieldset>
+        <br />
+    </form>
+    <button id="form_button" onclick="addObstacle()">Add Obstacle</button>
+
+    <div id="others" class="others">
+        {{#each obstacles}}
+        <input type="text" class="others" name="others_lat" value="{{latitude}}" />{{latitude}}
+        <input type="text" class="others" name="others_lon" value="{{longitude}}" />{{longitude}}
+        <input type="text" class="others" name="others_ob_type" value="{{obstacle_type}}" />{{obstacle_type}}
+        {{/each}}
+    </div>
+
+    <!--  Footer  -->
+    <footer class="title_block">
+        <div class="title_block_name">
+            <b>Project Group 21</b> <br /><i> Jordan Bartos,  Joseph Lewis,  Emily Lyle,  Collin Rumsey,  Cory Schmidt</i>
+        </div>
+        Spring 2019
+        <br /> Software Engineering I / CS 361_400
+    </footer>
+</body>
+</html>
