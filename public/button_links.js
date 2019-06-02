@@ -27,6 +27,26 @@ function gotoDestinations() {
     window.location = '/destinations'
 }
 
+// The page where the user can view parking spaces from the parking database
+function gotoParking() {
+	window.location = '/parking'
+}
+
+// The page wehre the user can add a new parking space to the parking table 
+function gotoAddParking() {
+	window.location() = '/parking/add'
+}
+
+// The page where the user can test searching for available parking spaces
+function gotoGetParking() {
+	window.location() = '/parking/get'
+}
+
+// The page where the user can reserve a parking space by updating a parking space entity's available field to 1 in the database
+function gotoReserveParking() {
+	window.location() = '/parking/reserve'
+}
+
 // The home page of the website
 function gotoHome() {
     window.location = '/'
