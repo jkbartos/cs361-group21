@@ -16,6 +16,16 @@ module.exports = function () {
         });
     }
 	
+/* Use this as an example of what the getParking should do:
+set @p_radius = 1005; set @p_deg_lat = 42.1; set @p_deg_long = -84.3; 
+
+select distinct o.latitude, o.longitude, o.obstacle_id,
+round(sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - o.longitude) * radians(@p_deg_lat) * 69.172,2)),2) as calc_distance
+from obstacles o 
+where sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - o.longitude) * radians(@p_deg_lat) * 69.172,2)) < @p_radius
+order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - o.longitude) * radians(@p_deg_lat) * 69.172,2));
+*/	
+	
 	//Only return parking spaces within radius and where available field = 1 
     function getParking(req, res, mysql, context, complete) {
         mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; select distinct p.latitude, p.longitude, p.id from parking p where(p.latitude between @p_deg_lat - (@p_radius/69) and @p_deg_lat + (@p_radius/69)) and (p.longitude between @p_deg_long - (@p_radius/(radians(@p_deg_lat)*69.172)) and @p_deg_long + (@p_radius/(radians(@p_deg_lat)*69.172))) and p.available = 1;", function (error, results, fields) {
