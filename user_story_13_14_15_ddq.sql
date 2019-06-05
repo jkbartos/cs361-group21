@@ -8,7 +8,6 @@ CREATE TABLE `parking`(
 `status` bit DEFAULT 0 NOT NULL,
 `latitude`double(12,9) NOT NULL,
 `longitude`double(12,9) NOT NULL,
-`longitude`double(12,9) NOT NULL,
 `elevation` int(11) NOT NULL, 
 PRIMARY KEY (`parking_id`),
 UNIQUE KEY (`parking_id`)
