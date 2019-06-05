@@ -27,25 +27,27 @@ function searchParkingByLocationAndRadius() {
 function addParking() {
     var p_lat = document.getElementById('deg_lat').value;
     var p_lon = document.getElementById('deg_lon').value;
+	var p_elev = document.getElementById('ft_elev').value; 
     var p_avail = document.getElementById('space_avail').value;
 
     var spaces_deg_lat = document.getElementsByName('spaces_lat');
     var spaces_deg_lon = document.getElementsByName('spaces_lon');
+	var spaces_ft_elev = document.getElementByName('spaces_elev');
     var dup_error = 0;
 
     for (var j = 0, n = others_deg_lat.length; j < n; j++) {
-        if (p_lat === others_deg_lat[j].value && p_lon === others_deg_lon[j].value) {
+        if (p_lat === others_deg_lat[j].value && p_lon === others_deg_lon[j].value && p_elev === others_ft_elev) {
             dup_error++;
         }
     }
 
-    if (!p_lat || !p_lon || !p_avail) {
+    if (!p_lat || !p_lon || !p_elev || !p_avail) {
         alert("Inputs must not be blank. The vehicle will not send Null data.");
     }
 	else if (dup_error > 0) {
 		alert("This obstacle has already been reported. The vehicle will not sent repeated records.");
 	}
     else {
-        window.location = '/parking/add/submit?par_deg_lat=' + encodeURI(p_lat) + '&par_deg_long=' + encodeURI(p_lon) + '&par_avail=' + encodeURI(p_avail);
+        window.location = '/parking/add/submit?par_deg_lat=' + encodeURI(p_lat) + '&par_deg_long=' + encodeURI(p_lon) + '&par_ft_elev=' + encodeURI(p_elev) + '&par_avail=' + encodeURI(p_avail);
     }
 }

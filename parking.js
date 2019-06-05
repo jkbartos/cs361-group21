@@ -7,7 +7,7 @@ module.exports = function () {
 	
 	function storeNewParkingSpace(req, res, mysql, complete) {
 		//TODO: where are the parameter values coming from? I'm not sure if this is correct
-        mysql.pool.query("set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; set @p_avail = " + mysql.pool.escape(decodeURI(req.query.par_avail)) + "; INSERT INTO obstacles(latitude,longitude,obstacle_type) values(@p_deg_lat, @p_deg_long, @p_avail);", function (error) {
+        mysql.pool.query("set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; set @p_ft_elev = " + decodeURI(req.query.par_ft_elev) + "; set @p_avail = " + mysql.pool.escape(decodeURI(req.query.par_avail)) + "; INSERT INTO obstacles(latitude,longitude,obstacle_type) values(@p_deg_lat, @p_deg_long, @p_avail);", function (error) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -39,7 +39,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
     }
 
     function getAllParking(res, mysql, context, complete) {
-        mysql.pool.query("select distinct parking.latitude, parking.longitude, parking.id from parking;", function (error, results, fields) {
+        mysql.pool.query("select distinct parking.latitude, parking.longitude, parking.elevation, parking.id from parking;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
