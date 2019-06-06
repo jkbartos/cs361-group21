@@ -27,27 +27,34 @@ where sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - 
 order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - o.longitude) * radians(@p_deg_lat) * 69.172,2));
 */	
 	
-	//Only return parking spaces within radius and where available field = 1 
+    //Only return parking spaces within radius and where available field = 1 
+    /* Params:
+        par_radius
+        par_deg_long
+        par_deg_lat
+    */
     function getParking(req, res, mysql, context, complete) {
+
         mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) 
 			+ "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) 
-			+ "; select distinct p.latitude, p.longitude, p.parking_id from parking p where(p.latitude between @p_deg_lat - (@p_radius/69) and @p_deg_lat + (@p_radius/69)) and (p.longitude between @p_deg_long - (@p_radius/(radians(@p_deg_lat)*69.172)) and @p_deg_long + (@p_radius/(radians(@p_deg_lat)*69.172))) and p.status = 1;", function (error, results, fields) {
+			+ "; select distinct p.latitude, p.longitude, p.parking_id, p.elevation from parking p where(p.latitude between @p_deg_lat - (@p_radius/69) and @p_deg_lat + (@p_radius/69)) and (p.longitude between @p_deg_long - (@p_radius/(radians(@p_deg_lat)*69.172)) and @p_deg_long + (@p_radius/(radians(@p_deg_lat)*69.172))) and p.status = 1;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.parking = results[3];
+
+            context.parkingSpaces = results[3];
             complete();
         });
     }
 
     function getAllParking(res, mysql, context, complete) {
-        mysql.pool.query("select distinct parking.latitude, parking.longitude, parking.elevation, parking.parking_id from parking;", function (error, results, fields) {
+        mysql.pool.query("select * from parking;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.parking = results;
+            context.parkingSpaces = results;
             complete();
         });
     }
@@ -66,7 +73,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
-    router.get('/search/', function (req, res) {
+    router.get('/get', function (req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
@@ -105,12 +112,14 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
-
+    //HOME PAGE FOR PARKING
     router.get('/', function (req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
+
+
         getAllParking(res, mysql, context, complete);
         function complete() {
             callbackCount++;
@@ -119,6 +128,30 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
             }
 
         }
+    });
+
+    // HOME PAGE FOR US-13
+    router.get('/get', function (req, res) {
+
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+
+        getAllParking(res, mysql, context, complete);
+
+        /*
+            Steps
+            1. get lat and long
+        */
+
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('parking', context);
+            }
+        }
+
     });
 
     return router;
