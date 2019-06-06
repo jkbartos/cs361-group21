@@ -38,7 +38,7 @@ function gotoAddParking() {
 }
 
 // The page where the user can test searching for available parking spaces
-function gotoGetParking() {
+function gotoGetOpenParking() {
 	window.location = '/parking/get'
 }
 
