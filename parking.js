@@ -59,6 +59,47 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         });
     }
 
+    function reserveParking(req, res, mysql, context, complete) {
+
+        mysql.pool.query("UPDATE parking SET status=0 WHERE parking_id=" + decodeURI(req.query.p_id), function(error, results, fields){
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.id = req.query.parking_space_id;
+            complete();
+        });
+
+    }
+
+    // Parking home page
+    router.get('/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+
+
+        getAllParking(res, mysql, context, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('parking', context);
+            }
+
+        }
+    });
+
+    // Route for start of US - 13
+    router.get('/get', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+        res.render('get_parking', context);
+    });
+
+    // Route for displaying parking based on provided lat/long and radius
     router.get('/search/results/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -73,14 +114,38 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
-    router.get('/get', function (req, res) {
+    router.get('/reserve', function (req, res) {
+
+        context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        res.render('reserve_parking', context);
+
+    });
+
+    router.get('/reserve/results/', function(req, res) {
+
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        res.render('get_parking', context);
+
+        reserveParking(req, res, mysql, context, complete);
+
+        function complete() {
+            callbackCount++;
+            if (callbackCount == 1) {
+                res.render('parking', context);
+            }
+        }
+
     });
 
+
+
+
+
+
+    // Routes for us14?
     router.get('/add/submit/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -110,48 +175,6 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
                 res.render('add_parking', context);
             }
         }
-    });
-
-    //HOME PAGE FOR PARKING
-    router.get('/', function (req, res) {
-        var callbackCount = 0;
-        var context = {};
-        context.jsscripts = ["parking_functions.js", "button_links.js"];
-        var mysql = req.app.get('mysql');
-
-
-        getAllParking(res, mysql, context, complete);
-        function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
-                res.render('parking', context);
-            }
-
-        }
-    });
-
-    // HOME PAGE FOR US-13
-    router.get('/get', function (req, res) {
-
-        var callbackCount = 0;
-        var context = {};
-        context.jsscripts = ["parking_functions.js", "button_links.js"];
-        var mysql = req.app.get('mysql');
-
-        getAllParking(res, mysql, context, complete);
-
-        /*
-            Steps
-            1. get lat and long
-        */
-
-        function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
-                res.render('parking', context);
-            }
-        }
-
     });
 
     return router;
