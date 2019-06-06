@@ -6,8 +6,9 @@ module.exports = function () {
     var router = express.Router();
 	
 	function storeNewParkingSpace(req, res, mysql, complete) {
-		//TODO: where are the parameter values coming from? I'm not sure if this is correct
-        mysql.pool.query("set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; set @p_ft_elev = " + decodeURI(req.query.par_ft_elev) + "; set @p_avail = " + mysql.pool.escape(decodeURI(req.query.par_avail)) + "; INSERT INTO obstacles(latitude,longitude,obstacle_type) values(@p_deg_lat, @p_deg_long, @p_avail);", function (error) {
+        mysql.pool.query("set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) 
+			+ "; set @p_ft_elev = " + decodeURI(req.query.par_ft_elev) + "; set @p_avail = " + mysql.pool.escape(decodeURI(req.query.par_avail)) 
+			+ "; INSERT INTO parking(latitude,longitude,elevation,status) values(@p_deg_lat, @p_deg_long, @p_ft_elev, @p_avail);", function (error) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -28,23 +29,25 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
 	
 	//Only return parking spaces within radius and where available field = 1 
     function getParking(req, res, mysql, context, complete) {
-        mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) + "; select distinct p.latitude, p.longitude, p.id from parking p where(p.latitude between @p_deg_lat - (@p_radius/69) and @p_deg_lat + (@p_radius/69)) and (p.longitude between @p_deg_long - (@p_radius/(radians(@p_deg_lat)*69.172)) and @p_deg_long + (@p_radius/(radians(@p_deg_lat)*69.172))) and p.available = 1;", function (error, results, fields) {
+        mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat) 
+			+ "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) 
+			+ "; select distinct p.latitude, p.longitude, p.parking_id from parking p where(p.latitude between @p_deg_lat - (@p_radius/69) and @p_deg_lat + (@p_radius/69)) and (p.longitude between @p_deg_long - (@p_radius/(radians(@p_deg_lat)*69.172)) and @p_deg_long + (@p_radius/(radians(@p_deg_lat)*69.172))) and p.status = 1;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.obstacles = results[3];
+            context.parking = results[3];
             complete();
         });
     }
 
     function getAllParking(res, mysql, context, complete) {
-        mysql.pool.query("select distinct parking.latitude, parking.longitude, parking.elevation, parking.id from parking;", function (error, results, fields) {
+        mysql.pool.query("select distinct parking.latitude, parking.longitude, parking.elevation, parking.parking_id from parking;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.obstacles = results;
+            context.parking = results;
             complete();
         });
     }
@@ -54,7 +57,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        getObstacles(req, res, mysql, context, complete);
+        getParking(req, res, mysql, context, complete);
         function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
@@ -76,11 +79,11 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        storeNewObstacle(req, res, mysql, complete);
+        storeNewParkingSpace(req, res, mysql, complete);
         function complete() {
             callbackCount++;
             if (callbackCount == 1) {
-                getAllObstacles(res, mysql, context, complete);
+                getAllParking(res, mysql, context, complete);
             }
             else if (callbackCount >= 2) {
                 res.render('parking', context);
@@ -93,8 +96,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        getObstacleTypes(res, mysql, context, complete);
-        getAllObstacles(res, mysql, context, complete);
+        getAllParking(res, mysql, context, complete);
         function complete() {
             callbackCount++;
             if (callbackCount >= 2) {
@@ -109,7 +111,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        getAllObstacles(res, mysql, context, complete);
+        getAllParking(res, mysql, context, complete);
         function complete() {
             callbackCount++;
             if (callbackCount >= 1) {

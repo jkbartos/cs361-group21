@@ -18,6 +18,7 @@ app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 app.use('/obstacles', require('./obstacles.js'));
 app.use('/destinations', require('./destinations.js'));
+app.use('/parking', require('./parking.js')); 
 app.use('/', express.static('public'));
 
 
