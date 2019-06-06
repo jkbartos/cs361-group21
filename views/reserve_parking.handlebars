@@ -194,14 +194,11 @@
             <p>
                 <label class="enter_space_id">Parking Space ID:</label>
                 <input type="number" name="parking_space_id" id="parking_space_id" /><br />
-				<!-- Not sure if we want to tie a specific vehicle to a parking space, if so we can add this column to the parking spaces table, if not, just delete this input-->
-				<label class="enter_vehicle_id">Your Vehicle ID:</label>
-                <input type="number" name="vehicle_id" id="vehicle_id" /><br />
             </p>
         </fieldset>
         <br />
     </form>
-    <button id="form_button" onclick="reserveParking()">Reserve Parking</button>
+    <button id="form_button" onclick="reserveParkingByID()">Reserve Parking</button>
 	
     <!--  Footer  -->
     <footer class="title_block">

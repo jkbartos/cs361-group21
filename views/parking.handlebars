@@ -15,7 +15,7 @@
     <body>
         <ul class="nav_pillar">
             <li class="pillar_button_list" id="current_location">Parking</li>
-            <li class="pillar_button_list" id="get_parking_button"><a onclick="gotoGetParking()">User Story 13: Display Open Parking Spaces</a></li>
+            <li class="pillar_button_list" id="get_parking_button"><a onclick="gotoGetOpenParking()">User Story 13: Display Open Parking Spaces</a></li>
             <li class="pillar_button_list" id="add_parking_button"><a onclick="gotoAddParking()">User Story 14: Add a New Parking Space</a></li>
             <li class="pillar_button_list" id="reserve_parking_button"><a onclick="gotoReserveParking()">User Story 15: Reserve a Parking Space</a></li>
         </ul>
@@ -207,22 +207,27 @@
                     <th width="200" min-width="200" class="lat_head">Latitude</th>
                     <th width="200" min-width="200" class="lon_head">Longitude</th>
 					<th width="200" min-width="200" class="elev_head">Elevation</th>
-                    <th width="200" min-width="200" class="spac_avail_head">Availability</th>
+                    {{#if status}}
+                        <th width="200" min-width="200" class="spac_avail_head">Availability</th>
+                    {{/if}}
                 </tr>
             </thead>
             <tbody>
                 {{#each parkingSpaces}}
                 <tr>
-                    <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="id">{{space_id}}</td>
+                    <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="id">{{parking_id}}</td>
                     <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="lat">{{latitude}}</td>
                     <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="lon">{{longitude}}</td>
 					<td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="elev">{{elevation}}</td>
-                    <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="space_avail">{{space_avail}}</td>
+                    {{#if status}}
+                        <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="space_avail">{{status}}</td>
+                    {{/if}}
                 </tr>
                 {{/each}}
             </tbody>
         </table>
-		
+        
+		<h2>Successfully reserved parking space #{{id}} </h2>
         <!--  Footer  -->
         <footer class="title_block">
             <div class="title_block_name">
