@@ -34,17 +34,17 @@ function gotoParking() {
 
 // The page wehre the user can add a new parking space to the parking table 
 function gotoAddParking() {
-	window.location() = '/parking/add'
+	window.location = '/parking/add'
 }
 
 // The page where the user can test searching for available parking spaces
 function gotoGetParking() {
-	window.location() = '/parking/get'
+	window.location = '/parking/get'
 }
 
 // The page where the user can reserve a parking space by updating a parking space entity's available field to 1 in the database
 function gotoReserveParking() {
-	window.location() = '/parking/reserve'
+	window.location = '/parking/reserve'
 }
 
 // The home page of the website
