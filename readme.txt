@@ -16,7 +16,7 @@ main.handlebars
 
 
 Important.
-When in the root directory for the first time run these two statements:
+When in the root directory for the first time run these three statements:
 npm install
 npm install forever
 npm install xmlhttprequest
