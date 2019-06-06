@@ -51,3 +51,25 @@ function addParking() {
         window.location = '/parking/add/submit?par_deg_lat=' + encodeURI(p_lat) + '&par_deg_long=' + encodeURI(p_lon) + '&par_ft_elev=' + encodeURI(p_elev) + '&par_avail=' + encodeURI(p_avail);
     }
 }
+
+
+// This function is called when the user clicks the reserve parking
+// on the reserve_parking page. Input field must be filled in with valid parking id.
+
+// Function takes the provided ID and sends it to the appropriate route for
+// query execution
+function reserveParkingByID() {
+
+    var p_id = document.getElementById('parking_space_id').value;
+
+    if ( !p_id ) {
+        alert("Input must not be blank.");
+    }
+	else if (p_id < 0) {
+		alert("ID must be positive.");
+	}
+    else {
+        window.location = '/parking/reserve/results/?p_id=' + encodeURI(p_id);
+    }
+
+}
