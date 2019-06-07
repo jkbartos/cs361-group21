@@ -16,24 +16,41 @@ module.exports = function () {
             complete();
         });
     }
-	
-/* Use this as an example of what the getParking should do:
-set @p_radius = 1005; set @p_deg_lat = 42.1; set @p_deg_long = -84.3; 
 
-select distinct o.latitude, o.longitude, o.obstacle_id,
-round(sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - o.longitude) * radians(@p_deg_lat) * 69.172,2)),2) as calc_distance
-from obstacles o 
-where sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - o.longitude) * radians(@p_deg_lat) * 69.172,2)) < @p_radius
-order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long - o.longitude) * radians(@p_deg_lat) * 69.172,2));
-*/	
-	
-    //Only return parking spaces within radius and where available field = 1 
-    /* Params:
-        par_radius
-        par_deg_long
-        par_deg_lat
-    */
+    function updateStatus(req, res, mysql, complete) {
+        mysql.pool.query("set @p_id = " + decodeURI(req.query.p_id) + "; set @p_status = " + decodeURI(req.query.p_status) + "; UPDATE parking SET status=@p_status WHERE parking_id=@p_id;", function (error) {
+                if (error) {
+                    res.write(JSON.stringify(error));
+                    res.end();
+                }
+                complete();
+            });
+    }
+
+    function getUpdateStatusOptions(res, mysql, context, complete) {
+        mysql.pool.query("select 'Vacant' as s_label, '0' as s_id  from dual UNION Select 'Occupied' as s_label, '1' as s_id  from dual order by s_id;", function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.statusOption = results;
+            complete();
+        });
+    }
+
+    function getAllParkingIDs(res, mysql, context, complete) {
+        mysql.pool.query("select distinct parking_id from parking order by parking_id;", function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.parkingID = results;
+            complete();
+        });
+    }
+
     function getParking(req, res, mysql, context, complete) {
+
         mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat)
             + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) 
             + "; select distinct p.parking_id, p.latitude, p.longitude, concat(p.elevation, ' ft') as elevation ,case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' when p.status = 3 then 'Reserved' end AS calc_status, concat(round(sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), 2), ' mi') as calc_dist from parking p where sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)) < @p_radius and p.status = 0 order by sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), p.parking_id;", function (error, results, fields) {
@@ -58,18 +75,19 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
     }
 
     function reserveParking(req, res, mysql, context, complete) {
-        mysql.pool.query("UPDATE parking SET status=0 WHERE parking_id=" + decodeURI(req.query.p_id), function(error, results, fields){
+        mysql.pool.query("set @p_id = " + decodeURI(req.query.p_id) + "; set @p_status = " + decodeURI(req.query.p_status)+ "; UPDATE parking SET status =@p_status WHERE parking_id =@p_id;", function(error){
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.id = req.query.parking_space_id;
             complete();
         });
+
     }
 
 
 /* USER STORY 13 */ 
+
     // Route for displaying parking based on provided lat/long and radius
     router.get('/search/results/', function (req, res) {
         var callbackCount = 0;
@@ -85,7 +103,6 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
-    //Route for searching parking data
     router.get('/search/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -94,14 +111,13 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         res.render('get_parking', context);
     });
 
-    /*ROUTES FOR USER STORY 14 */
-    //route for adding parking space to the database
-    router.get('/add/submit/', function (req, res) {
+    //ROUTES FOR USER STORY 14
+    router.get('/update/submit/', function (req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        storeNewParkingSpace(req, res, mysql, complete);
+        updateStatus(req, res, mysql, complete);
         function complete() {
             callbackCount++;
             if (callbackCount == 1) {
@@ -113,16 +129,19 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 	
-    router.get('/add/', function (req, res) {
+    router.get('/update/', function (req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        getAllParking(res, mysql, context, complete);
+        getAllParkingIDs(res, mysql, context, complete);
         function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
-                res.render('add_parking', context);
+            if (callbackCount == 1) {
+                getUpdateStatusOptions(res, mysql, context, complete)
+            }
+            else if (callbackCount >= 2) {
+                res.render('update_parking', context);
             }
         }
     });
@@ -148,6 +167,38 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
+
+    //ROUTES FOR ADDING PARKING
+    router.get('/add/submit/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+        storeNewParkingSpace(req, res, mysql, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount == 1) {
+                getAllParking(res, mysql, context, complete);
+            }
+            else if (callbackCount >= 2) {
+                res.render('parking', context);
+            }
+        }
+    });
+
+    router.get('/add/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+        getAllParking(res, mysql, context, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('add_parking', context);
+            }
+        }
+    });
 
     // Parking home page
     router.get('/', function (req, res) {
