@@ -96,7 +96,7 @@
                 top: 150px;
                 left: 175px;
                 background-position-x: center;
-                min-width: 600px;
+                min-width: 510px;
             }
 
             .nav_bar {
@@ -163,34 +163,14 @@
                 border-color: #000000;
             }
 
-            .lat {
-                border-style: solid;
-                border-width: thin;
-            }
-
-            .lon {
-                border-style: solid;
-                border-width: thin;
-            }
-
-            .ob_type {
-                border-style: solid;
-                border-width: thin;
-            }
-
-            .lat_head {
-                border-right-style: solid;
-                border-right-width: thin;
-            }
-
-            .lon_head {
+            .space_id_head, .lat_head, .lon_head, .elev_head, .status_head, .dist_head {
                 border-right-style: solid;
                 border-right-width: thin;
                 border-left-style: solid;
                 border-left-width: thin;
             }
 
-            .ob_type_head {
+            .space_id, .lat, .lon, .elev, .status, .dist {
                 border-right-style: solid;
                 border-right-width: thin;
                 border-left-style: solid;
@@ -203,31 +183,29 @@
         <table class="data_table" style="table-layout:fixed">
             <thead>
                 <tr>
-					<th width="200" min-width="200" class="space_id_head">Parking Space ID</th>
-                    <th width="200" min-width="200" class="lat_head">Latitude</th>
-                    <th width="200" min-width="200" class="lon_head">Longitude</th>
-					<th width="200" min-width="200" class="elev_head">Elevation</th>
-                    {{#if status}}
-                        <th width="200" min-width="200" class="spac_avail_head">Availability</th>
-                    {{/if}}
+                    <th width="30" min-width="30" class="space_id_head">ID</th>
+                    <th width="100" min-width="100" class="lat_head">Latitude</th>
+                    <th width="100" min-width="100" class="lon_head">Longitude</th>
+                    <th width="80" min-width="80" class="elev_head">Elevation</th>
+                    <th width="100" min-width="100" class="status_head">Status</th>
+                    <th width="100" min-width="100" class="dist_head">Dist From Dest</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each parkingSpaces}}
                 <tr>
-                    <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="id">{{parking_id}}</td>
-                    <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="lat">{{latitude}}</td>
-                    <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="lon">{{longitude}}</td>
-					<td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="elev">{{elevation}}</td>
-                    {{#if status}}
-                        <td width="200" style="overflow:hidden; max-width:200px; min-width:200px" class="space_avail">{{status}}</td>
-                    {{/if}}
+                    <td width="30" style="overflow:hidden; max-width:30px; min-width:30px" class="space_id">{{parking_id}}</td>
+                    <td width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="lat">{{latitude}}</td>
+                    <td width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="lon">{{longitude}}</td>
+                    <td width="80" style="overflow:hidden; max-width:80px; min-width:80px" class="elev">{{elevation}}</td>
+                    <td width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="status">{{calc_status}}</td>
+                    <td width="100" style="overflow:hidden; max-width:200px; min-width:100px" class="dist">{{calc_dist}}</td>
                 </tr>
                 {{/each}}
             </tbody>
         </table>
         
-		<h2>Successfully reserved parking space #{{id}} </h2>
+
         <!--  Footer  -->
         <footer class="title_block">
             <div class="title_block_name">
