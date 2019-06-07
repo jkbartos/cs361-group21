@@ -42,6 +42,11 @@ function gotoGetOpenParking() {
 	window.location = '/parking/search'
 }
 
+// The page where the user can test searching for available parking spaces
+function gotoUpdateParking() {
+    window.location = '/parking/update'
+}
+
 // The page where the user can reserve a parking space by updating a parking space entity's available field to 1 in the database
 function gotoReserveParking() {
 	window.location = '/parking/reserve'

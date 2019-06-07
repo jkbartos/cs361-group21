@@ -73,3 +73,17 @@ function reserveParkingByID() {
     }
 
 }
+
+
+function updateStatus() {
+
+    var p_id = document.getElementById('p_id').value;
+    var p_status = document.getElementById('p_status').value;
+    if (!p_id || !p_status) {
+        alert("Input must not be blank.");
+    }
+    else {
+        window.location = '/parking/update/submit/?p_id=' + encodeURI(p_id) + '&p_status=' + encodeURI(p_status);
+    }
+
+}
