@@ -1,1 +1,210 @@
+<!doctype html>
+<html>
+<header class="headerMenu">
+    <h1 class="header_title">System for Coordination of Autonomous Vehicles</h1>
+    <nav class="menuButtons">
+        <ul class="nav_bar">
+            <li class="button_list" id="home_button"><a onclick="gotoHome()">Home</a></li>
+            <li class="button_list" id="add_destination_button"><a onclick="gotoDestinations()">User Story 4: Destinations</a></li>
+            <li class="button_list" id="obstacles_button"><a onclick="gotoObstacles()">User Stories 10, 11: Obstacles</a></li>
+			<li class="button_list" id="parking_button"><a onclick="gotoParking()">User Stories 13, 14, 15: Parking</a></li>
+        </ul>
+    </nav>
+</header>
+<div style="width: 1400px; overflow: auto; position: page">
+    <body>
+        <ul class="nav_pillar">
+            <li class="pillar_button_list" id="current_location">Parking</li>
+            <li class="pillar_button_list" id="get_parking_button"><a onclick="gotoGetOpenParking()">User Story 13: Display Open Parking Spaces</a></li>
+            <li class="pillar_button_list" id="add_parking_button"><a onclick="gotoUpdateParking()">User Story 14: Update Parking Status</a></li>
+            <li class="pillar_button_list" id="reserve_parking_button"><a onclick="gotoReserveParking()">User Story 15: Reserve a Parking Space</a></li>
+            <li class="pillar_button_list" id="reserve_parking_button"><a onclick="gotoAddParking()">Not a user story yet: Add a New Parking Space</a></li>
+        </ul>
+        <style>
+            header {
+                background-color: #000000; /* OSU Paddletail Black */
+                color: #DC4405; /* OSU Beaver Orange */
+                border-bottom-style: solid;
+                border-bottom-width: thick;
+                border-color: #DC4405; /* OSU Beaver Orange */
+                width: calc(100% - 20px);
+                min-width: 1400px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                padding-left: 20px;
+            }
+
+            body {
+                background-color: dimgray;
+                min-width: 1400px;
+                _width: expression( document.body.clientWidth > 1000 ? "1400px" : "auto" );
+            }
+
+            footer {
+                background-color: #000000; /* OSU Paddletail Black */
+                color: #DC4405; /* OSU Beaver Orange */
+                border-top-style: solid;
+                border-top-width: thick;
+                border-color: #DC4405; /* OSU Beaver Orange */
+                width: calc(100% - 20px);
+                min-width: 1400px;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                padding-left: 20px;
+                padding-bottom: 20px;
+            }
+
+            .title_block_name {
+                padding-bottom: 0px;
+                color: #FFFFFF; /* OSU Bucktooth White */
+            }
+
+            table {
+                display: block;
+                border-collapse: collapse;
+                table-layout: fixed;
+                border-style: solid;
+                border-width: thin;
+            }
+
+            td {
+                word-wrap: break-word;
+            }
+
+            thead {
+                background-color: #DC4405;
+                display: block;
+            }
+
+            tbody {
+                display: block;
+                overflow-y: auto;
+                height: 300px;
+            }
+
+                tbody tr:nth-child(even) {
+                    background-color: antiquewhite;
+                }
+
+                tbody tr:nth-child(odd) {
+                    background-color: #FFFFFF;
+                }
+
+            .data_table {
+                position: absolute;
+                top: 150px;
+                left: 175px;
+                background-position-x: center;
+                min-width: 510px;
+            }
+
+            .nav_bar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #000000;
+            }
+
+            .button_list {
+                float: left;
+            }
+
+                .button_list a {
+                    display: block;
+                    color: white;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                }
+
+                    .button_list a:hover {
+                        background-color: #333;
+                        cursor: pointer;
+                    }
+
+            .nav_pillar {
+                left: 0px;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 150px;
+                background-color: gray;
+                top: 129px;
+                height: calc(100% - 200px);
+                position: absolute; /* Make it stick, even on scroll */
+                overflow: auto; /* Enable scrolling if the sidenav has too much content */
+            }
+
+            .pillar_button_list a {
+                display: block;
+                color: #000;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+
+                /* Change the link color on hover */
+                .pillar_button_list a:hover {
+                    background-color: #555;
+                    color: white;
+                    cursor: pointer;
+                }
+
+            #current_location {
+                display: block;
+                background-color: #DC4405;
+                color: #000;
+                padding: 8px 16px;
+                text-decoration: none;
+                font-weight: bold;
+                border-bottom: solid;
+                border-width: thin;
+                border-color: #000000;
+            }
+
+            .space_id_head, .lat_head, .lon_head, .elev_head, .status_head, .dist_head {
+                border-right-style: solid;
+                border-right-width: thin;
+                border-left-style: solid;
+                border-left-width: thin;
+            }
+
+            .space_id, .lat, .lon, .elev, .status, .dist {
+                border-right-style: solid;
+                border-right-width: thin;
+                border-left-style: solid;
+                border-left-width: thin;
+            }
+
+        </style>
+
+        <br />
+        <table class="data_table" style="table-layout:fixed">
+            <thead>
+                <tr>
+                    <th width="30" min-width="30" class="space_id_head">Parking Confirmation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each parkingSpaces}}
+                <tr>
+                    <td width="30" style="overflow:hidden; max-width:30px; min-width:30px" class="space_id">Parking space {{parking_id}} reserved</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        
+
+        <!--  Footer  -->
+        <footer class="title_block">
+            <div class="title_block_name">
+                <b>Project Group 21</b> <br /><i> Jordan Bartos,  Joseph Lewis,  Emily Lyle,  Collin Rumsey,  Cory Schmidt</i>
+            </div>
+            Spring 2019
+            <br /> Software Engineering I / CS 361_400
+        </footer>
+    </body>
+</html>
 
