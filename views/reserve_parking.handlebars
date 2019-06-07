@@ -17,6 +17,7 @@
         <li class="pillar_button_list" id="back_button"><a onclick="gotoParking()">Back</a></li>
     </ul>
     <style>
+
         header {
             background-color: #000000; /* OSU Paddletail Black */
             color: #DC4405; /* OSU Beaver Orange */
@@ -122,7 +123,7 @@
         }
 
 
-        #add-obstacle {
+        #reserve-parking {
             position: absolute;
             top: 150px;
         }
@@ -137,7 +138,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-        
+
         input[type=number], select {
             width: 100%;
             padding: 5px 5px;
@@ -147,11 +148,11 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-        
+
         #form_button {
             position: absolute;
-            top: 386px;
-            width: 100px;
+            top: 280px;
+            width: 120px;
             min-width: 100px;
             background-color: #DC4405;
             color: white;
@@ -160,7 +161,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            left: 593px;
+            left: 573px;
         }
 
             #form_button:hover {
@@ -188,18 +189,22 @@
         }
     </style>
 
-    <form id="add-obstacle" action="" method="">
+    <form id="reserve-parking" action="" method="">
         <fieldset>
-            <legend>Reserve a Parking Space</legend>
+            <legend>Pick a Parking Spot to Reserve</legend>
             <p>
-                <label class="enter_space_id">Parking Space ID:</label>
-                <input type="number" name="parking_space_id" id="parking_space_id" /><br />
+                <label class="p_id_dropDown">Parking ID:</label>
+                <select name="p_id" id="p_id">
+                    {{#each parkingID}}
+                    <option value="{{parking_id}}">{{parking_id}}</option>
+                    {{/each}}
+                </select>
             </p>
         </fieldset>
         <br />
     </form>
     <button id="form_button" onclick="reserveParkingByID()">Reserve Parking</button>
-	
+
     <!--  Footer  -->
     <footer class="title_block">
         <div class="title_block_name">
