@@ -90,14 +90,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
-    // Route for start of US - 13
-    router.get('/get', function (req, res) {
-        var callbackCount = 0;
-        var context = {};
-        context.jsscripts = ["parking_functions.js", "button_links.js"];
-        var mysql = req.app.get('mysql');
-        res.render('get_parking', context);
-    });
+/* USER STORY 13 */ 
 
     // Route for displaying parking based on provided lat/long and radius
     router.get('/search/results/', function (req, res) {
@@ -114,38 +107,15 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
-    router.get('/reserve', function (req, res) {
-
-        context = {};
-        context.jsscripts = ["parking_functions.js", "button_links.js"];
-        res.render('reserve_parking', context);
-
-    });
-
-    router.get('/reserve/results/', function(req, res) {
-
+    router.get('/search/', function (req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-
-        reserveParking(req, res, mysql, context, complete);
-
-        function complete() {
-            callbackCount++;
-            if (callbackCount == 1) {
-                res.render('parking', context);
-            }
-        }
-
+        res.render('get_obstacles', context);
     });
 
-
-
-
-
-
-    // Routes for us14?
+    //ROUTES FOR USER STORY 14
     router.get('/add/submit/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -162,7 +132,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
             }
         }
     });
-
+	
     router.get('/add/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -177,5 +147,26 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
-    return router;
+/* ROUTES FOR USER STORY 15 */ 
+   router.get('/reserve', function (req, res) {
+        context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        res.render('reserve_parking', context);
+    });
+
+    router.get('/reserve/results/', function(req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+        reserveParking(req, res, mysql, context, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount == 1) {
+                res.render('parking', context);
+            }
+        }
+    });
+	
+	return router;
 }();
