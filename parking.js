@@ -34,7 +34,6 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         par_deg_lat
     */
     function getParking(req, res, mysql, context, complete) {
-
         mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat)
             + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) 
             + "; select distinct p.parking_id, p.latitude, p.longitude, concat(p.elevation, ' ft') as elevation ,case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' when p.status = 3 then 'Reserved' end AS calc_status, concat(round(sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), 2), ' mi') as calc_dist from parking p where sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)) < @p_radius and p.status = 0 order by sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), p.parking_id;", function (error, results, fields) {
@@ -59,7 +58,6 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
     }
 
     function reserveParking(req, res, mysql, context, complete) {
-
         mysql.pool.query("UPDATE parking SET status=0 WHERE parking_id=" + decodeURI(req.query.p_id), function(error, results, fields){
             if (error) {
                 res.write(JSON.stringify(error));
@@ -68,12 +66,10 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
             context.id = req.query.parking_space_id;
             complete();
         });
-
     }
 
 
 /* USER STORY 13 */ 
-
     // Route for displaying parking based on provided lat/long and radius
     router.get('/search/results/', function (req, res) {
         var callbackCount = 0;
@@ -89,6 +85,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         }
     });
 
+    //Route for searching parking data
     router.get('/search/', function (req, res) {
         var callbackCount = 0;
         var context = {};
@@ -97,7 +94,8 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         res.render('get_parking', context);
     });
 
-    //ROUTES FOR USER STORY 14
+    /*ROUTES FOR USER STORY 14 */
+    //route for adding parking space to the database
     router.get('/add/submit/', function (req, res) {
         var callbackCount = 0;
         var context = {};
