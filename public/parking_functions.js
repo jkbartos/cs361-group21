@@ -32,11 +32,11 @@ function addParking() {
 
     var spaces_deg_lat = document.getElementsByName('spaces_lat');
     var spaces_deg_lon = document.getElementsByName('spaces_lon');
-	var spaces_ft_elev = document.getElementByName('spaces_elev');
+	var spaces_ft_elev = document.getElementsByName('spaces_elev');
     var dup_error = 0;
 
-    for (var j = 0, n = others_deg_lat.length; j < n; j++) {
-        if (p_lat === others_deg_lat[j].value && p_lon === others_deg_lon[j].value && p_elev === others_ft_elev) {
+    for (var j = 0, n = spaces_deg_lat.length; j < n; j++) {
+        if (p_lat === spaces_deg_lat[j].value && p_lon === spaces_deg_lon[j].value && p_elev === spaces_ft_elev) {
             dup_error++;
         }
     }
