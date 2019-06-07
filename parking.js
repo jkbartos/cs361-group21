@@ -71,23 +71,6 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
 
     }
 
-    // Parking home page
-    router.get('/', function (req, res) {
-        var callbackCount = 0;
-        var context = {};
-        context.jsscripts = ["parking_functions.js", "button_links.js"];
-        var mysql = req.app.get('mysql');
-
-
-        getAllParking(res, mysql, context, complete);
-        function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
-                res.render('parking', context);
-            }
-
-        }
-    });
 
 /* USER STORY 13 */ 
 
@@ -111,7 +94,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        res.render('get_obstacles', context);
+        res.render('get_parking', context);
     });
 
     //ROUTES FOR USER STORY 14
@@ -164,6 +147,25 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
             if (callbackCount == 1) {
                 res.render('parking', context);
             }
+        }
+    });
+
+
+    // Parking home page
+    router.get('/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+
+
+        getAllParking(res, mysql, context, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('parking', context);
+            }
+
         }
     });
 	
