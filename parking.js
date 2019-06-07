@@ -24,7 +24,7 @@ module.exports = function () {
                     res.end();
                 }
                 complete();
-            });
+        });
     }
 
     function getUpdateStatusOptions(res, mysql, context, complete) {
@@ -49,6 +49,17 @@ module.exports = function () {
         });
     }
 
+    function getAllParkingIDsReserve(res, mysql, context, complete) {
+        mysql.pool.query("select distinct p.parking_id from parking p where p.status = 0 order by p.parking_id;", function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.parkingID = results;
+            complete();
+        });
+    }
+
     function getParking(req, res, mysql, context, complete) {
 
         mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat)
@@ -64,7 +75,7 @@ module.exports = function () {
     }
 
     function getAllParking(res, mysql, context, complete) {
-        mysql.pool.query("select p.parking_id, p.latitude, p.longitude, concat(p.elevation,' ft') as elevation, case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' when p.status = 3 then 'Reserved' end AS calc_status, null AS calc_dist from parking p order by calc_dist, parking_id;", function (error, results, fields) {
+        mysql.pool.query("select p.parking_id, p.latitude, p.longitude, concat(p.elevation,' ft') as elevation, case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' end AS calc_status, null AS calc_dist from parking p order by calc_dist, parking_id;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -72,17 +83,6 @@ module.exports = function () {
             context.parkingSpaces = results;
             complete();
         });
-    }
-
-    function reserveParking(req, res, mysql, context, complete) {
-        mysql.pool.query("set @p_id = " + decodeURI(req.query.p_id) + "; set @p_status = " + decodeURI(req.query.p_status)+ "; UPDATE parking SET status =@p_status WHERE parking_id =@p_id;", function(error){
-            if (error) {
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            complete();
-        });
-
     }
 
 
@@ -147,22 +147,33 @@ module.exports = function () {
     });
 
 /* ROUTES FOR USER STORY 15 */ 
-   router.get('/reserve', function (req, res) {
-        context = {};
-        context.jsscripts = ["parking_functions.js", "button_links.js"];
-        res.render('reserve_parking', context);
-    });
-
-    router.get('/reserve/results/', function(req, res) {
+    router.get('/reserve/submit/', function(req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-        reserveParking(req, res, mysql, context, complete);
+        updateStatus(req, res, mysql, complete);
         function complete() {
             callbackCount++;
             if (callbackCount == 1) {
+                getAllParking(res, mysql, context, complete);
+            }
+            else if (callbackCount >= 2) {
                 res.render('parking', context);
+            }
+        }
+    });
+
+    router.get('/reserve/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+        getAllParkingIDsReserve(res, mysql, context, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('reserve_parking', context);
             }
         }
     });
