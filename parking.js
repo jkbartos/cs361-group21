@@ -171,7 +171,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
         getAllParking(res, mysql, context, complete);
         function complete() {
             callbackCount++;
-            if (callbackCount >= 2) {
+            if (callbackCount >= 1) {
                 res.render('add_parking', context);
             }
         }
