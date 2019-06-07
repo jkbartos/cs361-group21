@@ -60,19 +60,16 @@ function addParking() {
 // query execution
 function reserveParkingByID() {
 
-    var p_id = document.getElementById('parking_space_id').value;
-
-    if ( !p_id ) {
+    var p_id = document.getElementById('p_id').value;
+    var p_status = 1;
+    if (!p_id) {
         alert("Input must not be blank.");
     }
-	else if (p_id < 0) {
-		alert("ID must be positive.");
-	}
     else {
-        window.location = '/parking/reserve/results/?p_id=' + encodeURI(p_id);
+        window.location = '/parking/reserve/submit/?p_id=' + encodeURI(p_id) + '&p_status=' + encodeURI(p_status);
     }
-
 }
+
 
 
 function updateStatus() {
