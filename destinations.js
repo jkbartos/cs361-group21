@@ -4,9 +4,7 @@ module.exports = function () {
         
 
     function getSpecificDestination(mysql, context, complete) {
-        console.log(context.veh_id);
         mysql.pool.query("SELECT DISTINCT vehicle_id, step_id, distance, duration, start_lat, start_lon, end_lat, end_lon, instruction from destinations where vehicle_id = " + context.veh_id + " order by step_id;", function (error, results, fields) {
-            console.log(results);
             context.dests = results;
             complete();
         });
