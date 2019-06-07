@@ -172,6 +172,24 @@
                 border-left-style: solid;
                 border-left-width: thin;
             }
+	    
+	            	#form_button {
+            position: absolute;
+            top: 475px;
+            width: 120px;
+            min-width: 100px;
+            background-color: #DC4405;
+            color: white;
+            padding: 5px 5px;
+            margin: 4px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            left: 573px;
+        }
+            #form_button:hover {
+                background-color: #af3401; /*dark orange*/
+            }
 
         </style>
 
@@ -201,7 +219,7 @@
                 </tr>
                 {{/each}}
             </tbody>
-	    <button id="form_button" onclick="location.href = '/destination_confirmed'()">Continue</button>
+	    <button id="form_button" onclick="location.href = '/destination_confirmed';">Continue</button>
         </table>
         <!--  Footer  -->
         <footer class="title_block">
