@@ -37,7 +37,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
 
         mysql.pool.query("set @p_radius = " + decodeURI(req.query.par_radius) + "; set @p_deg_lat = " + decodeURI(req.query.par_deg_lat)
             + "; set @p_deg_long = " + decodeURI(req.query.par_deg_long) 
-            + "; select distinct p.parking_id, p.latitude, p.longitude, p.elevation, case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' when p.status = 3 then 'Reserved' end AS calc_status, round(sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), 2) as calc_dist from parking p where sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)) < @p_radius and p.status = 0 order by sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), p.parking_id;", function (error, results, fields) {
+            + "; select distinct p.parking_id, p.latitude, p.longitude, concat(p.elevation, ' ft') as elevation ,case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' when p.status = 3 then 'Reserved' end AS calc_status, concat(round(sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), 2), ' mi') as calc_dist from parking p where sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)) < @p_radius and p.status = 0 order by sqrt(POWER(abs(@p_deg_lat - p.latitude) * 69, 2) + POWER(abs(@p_deg_long - p.longitude) * radians(@p_deg_lat) * 69.172, 2)), p.parking_id;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -48,7 +48,7 @@ order by sqrt(POWER(abs(@p_deg_lat - o.latitude) * 69,2) + POWER(abs(@p_deg_long
     }
 
     function getAllParking(res, mysql, context, complete) {
-        mysql.pool.query("select p.parking_id, p.latitude, p.longitude, p.elevation, case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' when p.status = 3 then 'Reserved' end AS calc_status, null AS calc_dist from parking p order by calc_dist, parking_id;", function (error, results, fields) {
+        mysql.pool.query("select p.parking_id, p.latitude, p.longitude, concat(p.elevation,' ft') as elevation, case when p.status = 0 then 'Vacant' when p.status = 1 then 'Occupied' when p.status = 3 then 'Reserved' end AS calc_status, null AS calc_dist from parking p order by calc_dist, parking_id;", function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
