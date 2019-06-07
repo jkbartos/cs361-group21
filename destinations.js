@@ -51,7 +51,7 @@ module.exports = function () {
             complete();
         });
 
-    }   
+    }  
     
     // This gets called by the function that is called after the user clicks submit on the set destination form
     // It should store the destination, pull the destination information for that record and load the destionation handlebar
@@ -75,6 +75,32 @@ module.exports = function () {
             }
             else if (callbackCount == 4) {
                 res.render('destinations', context);
+            }
+        }
+    });
+    
+    // This gets called by the function that is called after the user clicks submit on the set destination form
+    // It should store the destination, pull the destination information for that record and load the destionation handlebar
+    router.get('/set/confirmed/', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["destination_functions.js", "button_links.js"];
+        context.veh_id = decodeURI(req.query.veh_id);
+        var mysql = req.app.get('mysql');
+        getDirections(req, context, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount == 1) {
+                deleteDestinations(mysql, context, complete);
+            }
+            else if (callbackCount == 2) {
+                storeDestinationSteps(mysql, context, complete);
+            }
+            else if (callbackCount == 3) {
+                getSpecificDestination(mysql, context, complete);
+            }
+            else if (callbackCount == 4) {
+                res.render('destination_confirmed', context);
             }
         }
     });
