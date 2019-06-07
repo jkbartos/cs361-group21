@@ -8,6 +8,10 @@ function setWeather() {
     window.location = '/destinations/set/results/?city_in=' + encodeURI(city) + '&appid=' + encodeURI(weather_API)
 }
 
+function continue() {
+    window.location = 'destination/set/results/?veh_id=' + encodeURI(veh_id) + '&app_key=' + encodeURI(app_key) + '&origin_lat=' + encodeURI(origin_lat) + '&origin_lon=' + encodeURI(origin_lon) + '&dest_addr=' + encodeURI(dest_addr) + '&dest_street=' + encodeURI(dest_street) + '&dest_city=' + encodeURI(dest_city) + '&dest_state=' + encodeURI(dest_state)
+}
+
 function setDestination() {
     var app_key = "AIzaSyCvZRbzXevwNoq34qgmGYBAx-wFNllQLUc";  //cprumsey21 google API Key  cost $5/1000 requests
     var veh_id = document.getElementById('veh_id').value
@@ -19,8 +23,8 @@ function setDestination() {
     var dest_street = document.getElementById('dest_street').value
     var dest_city = document.getElementById('dest_city').value
     var dest_state = document.getElementById('dest_state').value
-
-    window.location = '/destinations/set/results/?veh_id=' + encodeURI(veh_id) + '&app_key=' + encodeURI(app_key) + '&origin_lat=' + encodeURI(origin_lat) + '&origin_lon=' + encodeURI(origin_lon) + '&dest_addr=' + encodeURI(dest_addr) + '&dest_street=' + encodeURI(dest_street) + '&dest_city=' + encodeURI(dest_city) + '&dest_state=' + encodeURI(dest_state)
+    
+    window.location = '/destinations/set/continue/?veh_id=' + encodeURI(veh_id) + '&app_key=' + encodeURI(app_key) + '&origin_lat=' + encodeURI(origin_lat) + '&origin_lon=' + encodeURI(origin_lon) + '&dest_addr=' + encodeURI(dest_addr) + '&dest_street=' + encodeURI(dest_street) + '&dest_city=' + encodeURI(dest_city) + '&dest_state=' + encodeURI(dest_state)'
 }
 
 
