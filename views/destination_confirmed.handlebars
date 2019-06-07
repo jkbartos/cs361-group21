@@ -179,13 +179,16 @@
         <table class="data_table" style="table-layout:fixed">
             <thead>
                 <tr>
-                    <th width="300" min-width="300" class="instruction_head">Destination</th>
+                    <th width="600" min-width="600" class="instruction_head">Destination</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each address}}
                 <tr>
-                    <td width="75" style="overflow:hidden; max-width:75px; min-width:75px" class="address">Now traveling to {{address}}</td>
+                	<td width="600" style="overflow:hidden; max-width:600px; min-width:75px" class="address">Destination Confirmed</td>
+                </tr>
+                <tr>
+                <td width="600" style="overflow:hidden; max-width:600px; min-width:75px" class="address">Now traveling to {{address}}</td>
                 </tr>
                 {{/each}}
             </tbody>
