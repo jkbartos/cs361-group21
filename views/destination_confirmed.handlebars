@@ -66,7 +66,7 @@
                 border-width: thin;
             }
 
-            td {
+            td, th {
                 word-wrap: break-word;
             }
 
@@ -78,20 +78,40 @@
             tbody {
                 display: block;
                 overflow-y: auto;
-                height: 20px;
+                height: 150px;
+                border-right-style: solid;
+                border-right-width: thin;
+                border-left-style: solid;
+                border-left-width: thin;
             }
+
+                tbody th {
+                    background-color: #DC4405;
+                    border-right-style: solid;
+                    border-right-width: thin;
+                    border-left-style: solid;
+                    border-left-width: thin;
+                }
 
                 tbody tr:nth-child(even) {
                     background-color: antiquewhite;
+                    border-right-style: solid;
+                    border-right-width: thin;
+                    border-left-style: solid;
+                    border-left-width: thin;
                 }
 
                 tbody tr:nth-child(odd) {
                     background-color: #FFFFFF;
+                    border-right-style: solid;
+                    border-right-width: thin;
+                    border-left-style: solid;
+                    border-left-width: thin;
                 }
 
             .data_table {
                 position: absolute;
-                top: 150px;
+                top: 200px;
                 left: 175px;
                 background-position-x: center;
                 min-width: 600px;
@@ -171,11 +191,15 @@
                 border-right-width: thin;
                 border-left-style: solid;
                 border-left-width: thin;
+                border-bottom-style: solid;
+                border-bottom-width: thin;
+                border-top-style: solid;
+                border-top-width: thin;
             }
             
             #form_button {
                     position: absolute;
-                    top: 200px;
+                    top: 355px;
                     width: 115px;
                     min-width: 115px;
                     background-color: #DC4405;
@@ -201,21 +225,58 @@
                     min-width: 500px;
                 }
 
+           #TableTitle {
+                position: absolute;
+                top: 140px;
+                left: 175px;
+                background-position-x: center;
+                min-width: 600px;
+            }
+
+
         </style>
 
         <br />
+        <h2 id="TableTitle">Destination Set</h2>
         <table class="data_table" style="table-layout:fixed">
             <thead>
-                <tr>
-                    <th width="600" min-width="600" class="destination_head">Destination Confirmation</th>
-                </tr>
             </thead>
             <tbody>
+
                 <tr>
-                <td width="600" style="overflow:hidden; max-width:600px; min-width:75px" class="dest_adr">Now traveling to your destination</td>
+                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" >Address:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" id="dest_addr">{{dest_addr}}</td>
                 </tr>
-            </tbody>             
+                <tr>
+                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" >Street:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" id="dest_street">{{dest_street}}</td>
+                </tr>
+                <tr>
+                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head">City:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="dest_city">{{dest_city}}</td>
+                </tr>
+                <tr>
+                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head">State:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="dest_state">{{dest_state}}</td>
+                </tr>
+                <tr>
+                    <th width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="destination_head">Starting Latitude:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="origin_lat">{{origin_lat}}</td>
+                </tr>
+                <tr>
+                    <th width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="destination_head">Starting Longitude:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="origin_lon">{{origin_lon}}</td>
+                </tr>
+                <tr>
+                    <th width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="destination_head">Vehicle ID:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="veh_id">{{veh_id}}</td>
+                </tr>
+
+
+            </tbody>
         </table>
+   
+
 	    <button id="form_button" onclick="setDestination()">Continue</button>
         <!--  Footer  -->
         <footer class="title_block">
