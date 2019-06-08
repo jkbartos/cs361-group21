@@ -8,7 +8,7 @@ module.exports = function () {
             context.dests = results;
             complete();
         });
-    }   
+    }
 
     function deleteDestinations(mysql, context, complete) {
         mysql.pool.query("set @veh_id = " + context.veh_id + "; delete from destinations where vehicle_id = @veh_id;", function () {
@@ -22,7 +22,7 @@ module.exports = function () {
         var i = 0;
         var count = Object.keys(context.steps).length;
         for (i = 0; i < count; i++) {
-            mysql.pool.query("set @veh_id = " + context.veh_id + "; set @step_id = " + (i+1) + "; set @start_lat = " + context.steps[i].start_location.lat + "; set @start_lon = " + context.steps[i].start_location.lng + "; set @end_lat = " + context.steps[i].end_location.lat + "; set @end_lon = " + context.steps[i].end_location.lng + "; set @dist = '" + context.steps[i].distance.text + "'; set @dur = '" + context.steps[i].duration.text + "'; set @instruction = strip_tags('" + context.steps[i].html_instructions + "'); INSERT INTO destinations(step_id,vehicle_id,start_lat,start_lon,end_lat,end_lon,distance,duration,instruction) " + "values(@step_id, @veh_id, @start_lat, @start_lon, @end_lat, @end_lon, @dist, @dur, @instruction);");
+            mysql.pool.query("set @veh_id = " + context.veh_id + "; set @step_id = " + (i + 1) + "; set @start_lat = " + context.steps[i].start_location.lat + "; set @start_lon = " + context.steps[i].start_location.lng + "; set @end_lat = " + context.steps[i].end_location.lat + "; set @end_lon = " + context.steps[i].end_location.lng + "; set @dist = '" + context.steps[i].distance.text + "'; set @dur = '" + context.steps[i].duration.text + "'; set @instruction = strip_tags('" + context.steps[i].html_instructions + "'); INSERT INTO destinations(step_id,vehicle_id,start_lat,start_lon,end_lat,end_lon,distance,duration,instruction) " + "values(@step_id, @veh_id, @start_lat, @start_lon, @end_lat, @end_lon, @dist, @dur, @instruction);");
         }
         complete();
     }
@@ -51,7 +51,7 @@ module.exports = function () {
             complete();
         });
 
-    }  
+    } 
     
     // This gets called by the function that is called after the user clicks submit on the set destination form
     // It should store the destination, pull the destination information for that record and load the destionation handlebar
