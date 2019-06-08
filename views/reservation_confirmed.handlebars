@@ -34,13 +34,11 @@
                 left: 0px;
                 padding-left: 20px;
             }
-
             body {
                 background-color: dimgray;
                 min-width: 1400px;
                 _width: expression( document.body.clientWidth > 1000 ? "1400px" : "auto" );
             }
-
             footer {
                 background-color: #000000; /* OSU Paddletail Black */
                 color: #DC4405; /* OSU Beaver Orange */
@@ -55,12 +53,10 @@
                 padding-left: 20px;
                 padding-bottom: 20px;
             }
-
             .title_block_name {
                 padding-bottom: 0px;
                 color: #FFFFFF; /* OSU Bucktooth White */
             }
-
             table {
                 display: block;
                 border-collapse: collapse;
@@ -68,38 +64,50 @@
                 border-style: solid;
                 border-width: thin;
             }
-
-            td {
+            td, th {
                 word-wrap: break-word;
             }
-
             thead {
                 background-color: #DC4405;
                 display: block;
             }
-
             tbody {
                 display: block;
                 overflow-y: auto;
-                height: 20px;
+                height: 150px;
+                border-right-style: solid;
+                border-right-width: thin;
+                border-left-style: solid;
+                border-left-width: thin;
             }
-
+                tbody th {
+                    background-color: #DC4405;
+                    border-right-style: solid;
+                    border-right-width: thin;
+                    border-left-style: solid;
+                    border-left-width: thin;
+                }
                 tbody tr:nth-child(even) {
                     background-color: antiquewhite;
+                    border-right-style: solid;
+                    border-right-width: thin;
+                    border-left-style: solid;
+                    border-left-width: thin;
                 }
-
                 tbody tr:nth-child(odd) {
                     background-color: #FFFFFF;
+                    border-right-style: solid;
+                    border-right-width: thin;
+                    border-left-style: solid;
+                    border-left-width: thin;
                 }
-
             .data_table {
                 position: absolute;
-                top: 150px;
+                top: 200px;
                 left: 175px;
                 background-position-x: center;
-                min-width: 510px;
+                min-width: 600px;
             }
-
             .nav_bar {
                 list-style-type: none;
                 margin: 0;
@@ -107,11 +115,9 @@
                 overflow: hidden;
                 background-color: #000000;
             }
-
             .button_list {
                 float: left;
             }
-
                 .button_list a {
                     display: block;
                     color: white;
@@ -119,12 +125,10 @@
                     padding: 14px 16px;
                     text-decoration: none;
                 }
-
                     .button_list a:hover {
                         background-color: #333;
                         cursor: pointer;
                     }
-
             .nav_pillar {
                 left: 0px;
                 list-style-type: none;
@@ -137,21 +141,18 @@
                 position: absolute; /* Make it stick, even on scroll */
                 overflow: auto; /* Enable scrolling if the sidenav has too much content */
             }
-
             .pillar_button_list a {
                 display: block;
                 color: #000;
                 padding: 8px 16px;
                 text-decoration: none;
             }
-
                 /* Change the link color on hover */
                 .pillar_button_list a:hover {
                     background-color: #555;
                     color: white;
                     cursor: pointer;
                 }
-
             #current_location {
                 display: block;
                 background-color: #DC4405;
@@ -163,47 +164,68 @@
                 border-width: thin;
                 border-color: #000000;
             }
-
-            .space_id_head {
+            .dest_adr {
+                border-style: solid;
+                border-width: thin;
+            }
+            .destination_head {
                 border-right-style: solid;
                 border-right-width: thin;
                 border-left-style: solid;
                 border-left-width: thin;
+                border-bottom-style: solid;
+                border-bottom-width: thin;
+                border-top-style: solid;
+                border-top-width: thin;
             }
-
-            .space_id {
-                border-right-style: solid;
-                border-right-width: thin;
-                border-left-style: solid;
-                border-left-width: thin;
+            #form_button {
+                position: absolute;
+                top: 355px;
+                width: 115px;
+                min-width: 115px;
+                background-color: #DC4405;
+                color: white;
+                padding: 5px 5px;
+                margin: 4px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                left: 575px;
             }
-            
-        	#form_button {
-            position: absolute;
-            top: 200px;
-            width: 120px;
-            min-width: 100px;
-            background-color: #DC4405;
-            color: white;
-            padding: 5px 5px;
-            margin: 4px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            left: 573px;
-        }
-            #form_button:hover {
-                background-color: #af3401; /*dark orange*/
+                #form_button:hover {
+                    background-color: #af3401; /*dark orange*/
+                }
+            form {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 10px;
+                left: 0px;
+                width: 5px;
+                min-width: 0px;
+                height: 5px;
+            }
+	    
+	  #TableTitle {
+                position: absolute;
+                top: 140px;
+                left: 175px;
+                background-position-x: center;
+                min-width: 600px;
             }
 
 
         </style>
 
         <br />
+        <h2 id="TableTitle">Parking Space Reserved</h2>
         <table class="data_table" style="table-layout:fixed">
             <thead>
+            </thead>
+            <tbody>
+
                 <tr>
-                    <th width="600" min-width="600" class="space_id_head">Parking Confirmation</th>
+                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px" ; class="destination_head">Parking Space:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" ; class="destination_head" >{{p_id}}</td>
                 </tr>
             </thead>
             <tbody>
