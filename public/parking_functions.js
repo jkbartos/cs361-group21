@@ -53,7 +53,7 @@ function addParking() {
 }
 
 
-// This function is called when the user clicks the reserve parking
+// This function is called when the user clicks the continue
 // on the reserve_parking page. Input field must be filled in with valid parking id.
 
 // Function takes the provided ID and sends it to the appropriate route for
@@ -70,6 +70,18 @@ function reserveParkingByID() {
     }
 }
 
+//This function is called when a user clicks the reserve parking button and this routes to a dummy page
+//The dummy page confirms the selected parking space was reserved
+function continueParking() {	
+    var p_id = document.getElementById('p_id').value;
+    var p_status = 1;
+    if (!p_id) {
+        alert("Input must not be blank.");
+    }
+    else {
+        window.location = '/parking/reserve/confirmed/?p_id=' + encodeURI(p_id) + '&p_status=' + encodeURI(p_status);
+    }	
+}
 
 
 function updateStatus() {
