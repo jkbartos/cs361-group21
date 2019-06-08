@@ -233,6 +233,20 @@
                     <td width="600" style="overflow:hidden; max-width:600px; min-width:600px" class="space_id">Parking space reservation confirmation</td>
                 </tr>
             </tbody>
+	        <form id="reserve-parking" action="" method="">
+        <fieldset>
+            <legend>Pick a Parking Spot to Reserve</legend>
+            <p>
+                <label class="p_id_dropDown">Parking ID:</label>
+                <select name="p_id" id="p_id">
+                    {{#each parkingID}}
+                    <option value="{{parking_id}}">{{parking_id}}</option>
+                    {{/each}}
+                </select>
+            </p>
+        </fieldset>
+        <br />
+    </form>
     <button id="form_button" onclick="reserveParkingByID()">Continue</button>
         </table>
         
