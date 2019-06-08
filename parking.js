@@ -171,7 +171,7 @@ module.exports = function () {
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
 	context.p_id = decodeURI(req.query.p_id);
-	res.render('parking_confirmed', context);
+	res.render('reservation_confirmed', context);
     });
 
     router.get('/reserve/', function (req, res) {
