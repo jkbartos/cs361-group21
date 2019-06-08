@@ -163,6 +163,16 @@ module.exports = function () {
             }
         }
     });
+	
+
+    router.get('/reserve/confirmed', function (req, res) {
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["parking_functions.js", "button_links.js"];
+        var mysql = req.app.get('mysql');
+	context.parking_id = decodeURI(req.query.parking_id);
+	res.render('parking_confirmed', context);
+    });
 
     router.get('/reserve/', function (req, res) {
         var callbackCount = 0;
