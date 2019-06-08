@@ -9,7 +9,7 @@ function setWeather() {
 }
 
 function continue() {
-    window.location = 'destination/set/confirmed'
+    window.location = 'destinations/set/confirmed'
 }
 
 function setDestination() {
