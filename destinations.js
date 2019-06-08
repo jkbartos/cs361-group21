@@ -93,7 +93,6 @@ module.exports = function () {
         context.dest_city = decodeURI(req.query.dest_city);
         context.dest_state = decodeURI(req.query.dest_state);
         var mysql = req.app.get('mysql');
-        getDirections(req, context, complete);
         res.render('destination_confirmed', context);
     });
     
