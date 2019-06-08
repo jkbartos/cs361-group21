@@ -80,29 +80,20 @@ module.exports = function () {
     });
     
     // This gets called by the function that is called after the user clicks submit on the set destination form
-    // It should store the destination, pull the destination information for that record and load the destionation handlebar
+    // It should store the destination and load the destination_confirmed handlebar 
     router.get('/set/confirmed/', function (req, res) {
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["destination_functions.js", "button_links.js"];
         context.veh_id = decodeURI(req.query.veh_id);
+        context.origin_lat = decodeURI(req.query.origin_id);
+        context.origin_lon = decodeURI(req.query.origin_lon);
+        context.dest_addr = decodeURI(req.query.dest_addr);
+        context.dest_street = decodeURI(req.query.dest_street);
+        context.dest_city = decodeURI(req.query.dest_city);
+        context.dest_state = decodeURI(req.query.dest_state);
         var mysql = req.app.get('mysql');
-        getDirections(req, context, complete);
-        function complete() {
-            callbackCount++;
-            if (callbackCount == 1) {
-                deleteDestinations(mysql, context, complete);
-            }
-            else if (callbackCount == 2) {
-                storeDestinationSteps(mysql, context, complete);
-            }
-            else if (callbackCount == 3) {
-                getSpecificDestination(mysql, context, complete);
-            }
-            else if (callbackCount == 4) {
-                res.render('destination_confirmed', context);
-            }
-        }
+        res.render('destination_confirmed', context);
     });
     
     
