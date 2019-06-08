@@ -170,7 +170,7 @@ module.exports = function () {
         var context = {};
         context.jsscripts = ["parking_functions.js", "button_links.js"];
         var mysql = req.app.get('mysql');
-	context.parking_id = decodeURI(req.query.parking_id);
+	context.p_id = decodeURI(req.query.p_id);
 	res.render('parking_confirmed', context);
     });
 
