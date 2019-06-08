@@ -18,6 +18,7 @@
             <li class="pillar_button_list" id="set_destination"><a onclick="gotoSetDestination()">User Story 4: Set Destination</a></li>
         </ul>
         <style>
+
             header {
                 background-color: #000000; /* OSU Paddletail Black */
                 color: #DC4405; /* OSU Beaver Orange */
@@ -196,36 +197,37 @@
                 border-top-style: solid;
                 border-top-width: thin;
             }
-            
+
             #form_button {
-                    position: absolute;
-                    top: 355px;
-                    width: 115px;
-                    min-width: 115px;
-                    background-color: #DC4405;
-                    color: white;
-                    padding: 5px 5px;
-                    margin: 4px 0;
-                    border: none;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    left: 575px;
+                position: absolute;
+                top: 355px;
+                width: 115px;
+                min-width: 115px;
+                background-color: #DC4405;
+                color: white;
+                padding: 5px 5px;
+                margin: 4px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                left: 575px;
+            }
+
+                #form_button:hover {
+                    background-color: #af3401; /*dark orange*/
                 }
 
-                    #form_button:hover {
-                        background-color: #af3401; /*dark orange*/
-                    }
+            form {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 10px;
+                left: 0px;
+                width: 5px;
+                min-width: 0px;
+                height: 5px;
+            }
 
-                form {
-                    border-radius: 5px;
-                    background-color: #f2f2f2;
-                    padding: 10px;
-                    left: 175px;
-                    width: 500px;
-                    min-width: 500px;
-                }
-
-           #TableTitle {
+            #TableTitle {
                 position: absolute;
                 top: 140px;
                 left: 175px;
@@ -235,7 +237,6 @@
 
 
         </style>
-
         <br />
         <h2 id="TableTitle">Destination Set</h2>
         <table class="data_table" style="table-layout:fixed">
@@ -244,40 +245,62 @@
             <tbody>
 
                 <tr>
-                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" >Address:</th>
-                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" id="dest_addr">{{dest_addr}}</td>
+                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px" ; class="destination_head">Address:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" ; class="destination_head" >{{dest_addr}}</td>
                 </tr>
                 <tr>
-                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" >Street:</th>
-                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px"; class="destination_head" id="dest_street">{{dest_street}}</td>
+                    <th width="300" style="overflow:hidden; max-width:300px; min-width:300px" ; class="destination_head">Street:</th>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" ; class="destination_head" >{{dest_street}}</td>
                 </tr>
                 <tr>
                     <th width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head">City:</th>
-                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="dest_city">{{dest_city}}</td>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" >{{dest_city}}</td>
                 </tr>
                 <tr>
                     <th width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head">State:</th>
-                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="dest_state">{{dest_state}}</td>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" >{{dest_state}}</td>
                 </tr>
                 <tr>
                     <th width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="destination_head">Starting Latitude:</th>
-                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="origin_lat">{{origin_lat}}</td>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" >{{origin_lat}}</td>
                 </tr>
                 <tr>
                     <th width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="destination_head">Starting Longitude:</th>
-                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="origin_lon">{{origin_lon}}</td>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" >{{origin_lon}}</td>
                 </tr>
                 <tr>
                     <th width="100" style="overflow:hidden; max-width:100px; min-width:100px" class="destination_head">Vehicle ID:</th>
-                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" id="veh_id">{{veh_id}}</td>
+                    <td width="300" style="overflow:hidden; max-width:300px; min-width:300px" class="destination_head" >{{veh_id}}</td>
                 </tr>
-
-
             </tbody>
         </table>
-   
+        <form id="set-destination" action="" method="">
+            <fieldset>
+                <legend>Enter Obstacle Location in Decimal Degrees and Select Type</legend>
+                <p>
+                    
+                    <label class="veh_id">Vehicle ID:</label>
+                    <input type="number" name="veh_id" id="veh_id" value="{{veh_id}}" /><br />
 
-	    <button id="form_button" onclick="setDestination()">Continue</button>
+                    <label class="origin_lat">Origin Latitude:</label>
+                    <input type="number" name="origin_lat" id="origin_lat" value="{{origin_lat}}"/><br />
+                    <label class="origin_lon">Origin Longitude:</label>
+                    <input type="number" name="origin_lon" id="origin_lon" value="{{origin_lon}}" /><br />
+
+                    <label class="dest_addr">Destination Address:</label>
+                    <input type="number" name="dest_addr" id="dest_addr" value="{{dest_addr}}" /><br />
+                    <label class="dest_street">Destination Street:</label>
+                    <input type="text" name="dest_street" id="dest_street" value="{{dest_street}}" /><br />
+                    <label class="dest_city">Destination City:</label>
+                    <input type="text" name="dest_city" id="dest_city" value="{{dest_city}}"/><br />
+                    <label class="dest_state">Destination State Abbrv:</label>
+                    <input type="text" name="dest_state" id="dest_state" value="{{dest_state}}"/><br />
+                </p>
+            </fieldset>
+            <br />
+        </form>
+
+        <button id="form_button" onclick="setDestination()">Continue</button>
         <!--  Footer  -->
         <footer class="title_block">
             <div class="title_block_name">
